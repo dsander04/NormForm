@@ -14,10 +14,10 @@ Authors@R: c(
       role = c("aut", "cre"),
       comment = c(ORCID = "0009-0004-1761-1286")),
     person(
-      "Josette", "Charbonneau",
-      email = "",
+      "Jo", "Charbonneau",
+      email = "jcharbonneau2@huskers.unl.edu",
       role = c("aut", "cre"),
-      comment = c(ORCID = ""))
+      comment = c(ORCID = "0009-0005-4779-2388"))
   )
 Description: More about what it does (maybe more than one line).
     Continuation lines should be indented.
