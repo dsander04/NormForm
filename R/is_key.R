@@ -5,7 +5,7 @@
 #' @param optional_argument binary, defaluts to `FALSE`
 #' @returns logical value: `TRUE`, if the specified variable (combination) is a key,
 #' `FALSE` otherwise
-#' @package
+#' @examples
 #' @examples
 #' data(college)
 #' is_key(college, name)
