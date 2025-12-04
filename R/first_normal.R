@@ -1,4 +1,11 @@
-first.normal <- function(data, max_size = 2) {
+#' Function to check whether a dataset is in first normal form
+#'
+#' @param data data frame
+#' @param max_size size of the key
+#' @export
+#' @examples
+#' first_normal(college)
+first_normal <- function(data, max_size = 2) {
 
   is_atomic <- function(x) {
     all(!sapply(x, function(v) length(v) != 1 || is.list(v)))
@@ -33,7 +40,3 @@ first.normal <- function(data, max_size = 2) {
     candidate_keys = keys
   ))
 }
-
-first.normal(college)
-
-first.normal(auto)
