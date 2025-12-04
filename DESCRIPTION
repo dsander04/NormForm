@@ -1,6 +1,6 @@
 Package: NormForm
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Dealing with Normal Forms of Data
 Version: 0.1.0
 Authors@R: c(
     person(
@@ -19,7 +19,11 @@ Authors@R: c(
       role = c("aut"),
       comment = c(ORCID = "0009-0005-4779-2388"))
   )
-Description: More about what it does (maybe more than one line).
+Description: This package introduces a set of tools to help R
+    users identify potential keys, test whether selected
+    attributes are valid keys, and determine whether or not a
+    dataset satisfies the first and second normal form 
+    requirements.
     Continuation lines should be indented.
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -28,4 +32,5 @@ RoxygenNote: 7.3.2
 Depends: 
     R (>= 3.5)
 Imports: 
-    dplyr
+    dplyr,
+    purrr

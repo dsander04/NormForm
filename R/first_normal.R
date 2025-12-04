@@ -1,7 +1,7 @@
 #' Function to check whether a dataset is in first normal form
 #'
 #' @param data data frame
-#' @param max_size size of the key
+#' @param max_size maximum size of the key
 #' @export
 #' @examples
 #' first_normal(college)
@@ -17,26 +17,12 @@ first_normal <- function(data, max_size = 2) {
     return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
   }
 
-  keys <- tryCatch(
-    {
-      result <- find.keys(data, max_size = max_size)
-      if (nrow(result) == 0) stop("No keys found")
-      result
-    },
-    error = function(e) {
-      return(NULL)
-    },
-    warning = function(w) {
-      return(NULL)
-    }
-  )
+  result <- find_keys(data, max_size = max_size)
+  result
 
-  if (is.null(keys)) {
+  if (is.character(result)) {
     return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
   }
 
-  return(list(
-    message = "TRUE: Dataset is in First Normal Form", #is this message necessary?
-    candidate_keys = keys
-  ))
+  return("TRUE")
 }

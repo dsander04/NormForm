@@ -9,7 +9,7 @@ first_normal(data, max_size = 2)
 \arguments{
 \item{data}{data frame}
 
-\item{max_size}{size of the key}
+\item{max_size}{maximum size of the key}
 }
 \description{
 Function to check whether a dataset is in first normal form
