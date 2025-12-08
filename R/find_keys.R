@@ -1,10 +1,17 @@
-#' Determine which column(s) is(are)
+#' Determine which column(s) is(are) a key for the data
 #'
 #' @param data data frame
 #' @param max_size maximum size of the key
-#' @export
+#' @return A tibble with key size and which columns if keys exist, `FALSE` otherwise
+#'
+#' @details
+#' If `FALSE` is returned, this message will print:
+#' - `"No keys of size ", max_size, " found, pick larger max size"`
+#'
 #' @examples
 #' find_keys(college)
+#'
+#' @export
 
 find_keys <- function(data, max_size = 1) {
   cols <- colnames(data)
