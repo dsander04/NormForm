@@ -23,4 +23,5 @@ Assess whether a proposed (set of) variable(s) is a key
 \examples{
 data(college)
 is_key(college, name)
+
 }

@@ -11,9 +11,20 @@ first_normal(data, max_size = 2)
 
 \item{max_size}{maximum size of the key}
 }
+\value{
+logical value: `TRUE`, if the data is in first normal form, `FALSE` otherwise
+}
 \description{
 Function to check whether a dataset is in first normal form
 }
+\details{
+If `FALSE` is returned, one of two messages will print:
+- `"Data set is NOT in First Normal Form, non-atomic columns found"`
+(when one or more columns include contain multiple values in the same row)
+- `"Data set is NOT in First Normal Form, no candidate key exists"`
+(when there are simply no keys for the data)
+}
 \examples{
 first_normal(college)
+
 }
