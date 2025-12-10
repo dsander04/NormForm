@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: "Final Report Index"
 format: html
 execute:
   wrap: true
@@ -18,11 +18,14 @@ execute:
 
 -   auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data
 
--   counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994
+-   counties: 100 observations, 18 variables, unique ID variable (RN), contains U.S. census data from 1994
 
 ### Functions
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, message=FALSE}
+library(dplyr)
+library(purrr)
+
 is_key <- function(data, ..., optional_arguement = FALSE) {
   key_candidate <- data |> select(...)
   !any(duplicated(key_candidate))
@@ -114,9 +117,9 @@ second_normal <- function(data, max_size = 1) {
   return("TRUE")
 }
 
-load("data-raw/auto.R")
-
-
+data("auto")
+data("college")
+data("counties")
 ```
 
 #### is_key
@@ -131,6 +134,14 @@ data.
 head(is_key)
 ```
 
+Example:
+```{r}
+is_key(college, c(region,city))
+is_key(college, unitid)
+```
+Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.
+
+
 #### find_keys
 
 Description: This function searches for the smallest possible keys in
@@ -139,24 +150,49 @@ max_size to control the size of combinations considered. Keys are found
 by cycling through subset combinations of columns and using is_key to
 test the key status. Output includes all keys that uniquely identify the
 data set that are the equal to or less than the specified max_size
-arguement.
+argument.
 
 ```{r}
 head(find_keys)
 ```
 
+Example:
+```{r, message=FALSE}
+find_keys(counties) 
+find_keys(counties, max_size = 2)
+```
+In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.
+
+Example
+```{r}
+find_keys(auto, max_size = 2)
+find_keys(auto, max_size = 3)
+```
+Using the auto data, which has unique identifying variable, we can see that there are no keys of size 2 or smaller, resulting in an error message. By increasing the max_size, the function is able to identify keys of size 3.  
+
 #### first_normal
 
 Description: This function returns a logical value indicating whether
 the data set is in first normal form. The first condition of first
-normal form is all atomic columns and then uses the find_key function to
-identify a key. If the data is tidy and has a key, then the function
+normal form is all atomic columns and then uses the find_key function to identify a key. If the data is tidy and has a key, then the function
 will return TRUE and key(s) have been found. The function will return
 FALSE and will return a message stating which condition is not met
 
 ```{r}
 head(first_normal)
 ```
+
+Example
+```{r}
+first_normal(college)
+
+first_normal(auto, max_size = 2)
+```
+Using the first_normal function on the college data reveals that it is in first normal form by having atomic columns and at least one key. In contrast, the auto data set is not in first normal form since no keys of size 2 or smaller exist.
+```{r}
+first_normal(auto, max_size = 3)
+```
+When we raise the maz_size of keys to 3, the auto data can now be considered to be in first normal form. 
 
 #### second_normal
 
@@ -174,6 +210,19 @@ message stating which condition was not met when the result is FALSE.
 ```{r}
 head(second_normal)
 ```
+
+Example
+```{r}
+second_normal(college)
+```
+The function reveals that the college data set is in second normal form without needing any alteration. Notably, running only this function on a data set and receiving a TRUE result implies that at least one key exists and the data is in first normal form.
+
+Example
+```{r}
+second_normal(auto, max_size = 2)
+second_normal(auto, max_size = 3)
+```
+When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size 2 exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form.
 
 ## Process
         
@@ -195,12 +244,10 @@ and more structural alignment with tidyverse.
 
   While focusing on creating a package to help users evaluate normal forms and identify keys within relational data sets, the package was developed. Implementing functions that check key validity, search for minimal keys, and assess first and second normal form conditions helped us produce a set of tools that make database concepts easier to apply in everyday data analysis. 
 
-  While the package currently serves as a functional foundation, there is
-room for future development. Adding more customization, improving
+  While the package currently serves as a functional foundation, there is room for future development. Adding more customization, improving
 accuracy through additional testing, and expanding capabilities to
-higher normal forms would enhance the usefulness.\
+higher normal forms would enhance the usefulness.
   Together, these developments demonstrate that the package not only
-achieves the initial goals of evaluating normal form but also provides a
-robust foundation for future enhancements. This package shows that
+achieves the initial goals of evaluating normal form but also provides a robust foundation for future enhancements. This package shows that
 normalization concepts can be made more accessible, reproducible, and
 useful for real data workflows.

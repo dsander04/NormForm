@@ -105,7 +105,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
-<p>The motivation for developing this package stems from previous issues encountered while working with data sets that lacked clear key structures or violated normalization principles. Determining if a data set meets first or second normal form requirements often requires manual inspection, and identifying valid keys can become computationally expensive as the number of variables increases. Our goal was to develop a set of tools that would make these tasks more accessible to students, researchers, and anyone working with R. In order to accomplish this, we developed the four following functions.</p>
+<p>The motivation for developing this package stems from previous issues encountered while working with data sets that lacked clear key structures or violated normalization principles. Determining if a data set meets first or second normal form requirements often requires manual inspection, and identifying valid keys can become computationally expensive as the number of variables increases. Our goal was to develop a set of tools that would make these tasks more accessible to students, researchers, and anyone working with R. In order to accomplish this, we developed four functions. Additionally, we used three data sets to serve as examples for how the functions work. For each function the logic is outlined, and working drafts of each function were created and tested on several sample data sets:</p>
+<ul>
+<li><p>college: 1372 observations, 29 variables, unique ID variable (unitid), contains data over U.S. colleges and student demographics</p></li>
+<li><p>auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data</p></li>
+<li><p>counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994</p></li>
+</ul>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
 <section id="is_key" class="level4">
@@ -117,17 +122,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>                                                   
 1 function (data, ..., optional_arguement = FALSE) 
 2 {                                                
-3     key_candidate &lt;- select(data, ...)           
+3     key_candidate &lt;- dplyr::select(data, ...)    
 4     !any(duplicated(key_candidate))              
 5 }                                                </code></pre>
 </div>
 </div>
+<p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, <span class="fu">c</span>(region,city))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, unitid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.</p>
 </section>
 <section id="find_keys" class="level4">
 <h4 class="anchored" data-anchor-id="find_keys">find_keys</h4>
-<p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size arguement.</p>
+<p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                     
 1 function (data, max_size = 1)      
@@ -138,12 +155,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6     for (k in 1:min(max_size, n)) {</code></pre>
 </div>
 </div>
+<p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using an external vector in selections was deprecated in tidyselect 1.1.0.
+ℹ Please use `all_of()` or `any_of()` instead.
+  # Was:
+  data %&gt;% select(combo)
+
+  # Now:
+  data %&gt;% select(all_of(combo))
+
+See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  key_size columns 
+     &lt;int&gt; &lt;chr&gt;   
+1        1 RN      
+2        1 totpop  
+3        1 enroll  
+4        1 civlabor
+5        1 unemp   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 141 × 2
+   key_size columns      
+      &lt;int&gt; &lt;chr&gt;        
+ 1        1 RN           
+ 2        1 totpop       
+ 3        1 enroll       
+ 4        1 civlabor     
+ 5        1 unemp        
+ 6        2 RN, state    
+ 7        2 RN, county   
+ 8        2 RN, landarea 
+ 9        2 RN, totpop   
+10        2 RN, physician
+# ℹ 131 more rows</code></pre>
+</div>
+</div>
+<p>In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger keys.</p>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "No keys of size 2 found, pick larger max size"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  key_size columns    
+     &lt;int&gt; &lt;chr&gt;      
+1        3 X1, X7, X10
+2        3 X5, X6, X7 
+3        3 X5, X7, X10
+4        3 X6, X7, X10</code></pre>
+</div>
+</div>
 </section>
 <section id="first_normal" class="level4">
 <h4 class="anchored" data-anchor-id="first_normal">first_normal</h4>
 <p>Description: This function returns a logical value indicating whether the data set is in first normal form. The first condition of first normal form is all atomic columns and then uses the find_key function to identify a key. If the data is tidy and has a key, then the function will return TRUE and key(s) have been found. The function will return FALSE and will return a message stating which condition is not met</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                                   
 1 function (data, max_size = 2)                                    
@@ -159,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="second_normal">second_normal</h4>
 <p>Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. Next, it needs to check for partial dependencies for keys with &gt;1 columns. For keys that may have partial dependencies, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                                                             
 1 function (data, max_size = 1)                                                              
@@ -175,19 +252,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="process" class="level2">
 <h2 class="anchored" data-anchor-id="process">Process</h2>
-<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. With the logic outlined, working drafts of each function were created and tested on several sample data sets:</p>
-<ul>
-<li><p>college: unique ID variable (unitid)</p></li>
-<li><p>auto: no unique ID variable</p></li>
-<li><p>counties: no unique ID variable</p></li>
-</ul>
-<p>This testing allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
+<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>While focusing on creating a package to help users evaluate normal forms and identify keys within relational data sets, the package was developed. Implementing functions that check key validity, search for minimal keys, and assess first and second normal form conditions helped us produce a set of tools that make database concepts easier to apply in everyday data analysis.</p>
-<p>While the package currently serves as a functional foundation, there is room for future development. Adding more customization, improving accuracy through additional testing, and expanding capabilities to higher normal forms would enhance the usefulness.<br>
-Together, these developments demonstrate that the package not only achieves the initial goals of evaluating normal form but also provides a robust foundation for future enhancements. This package shows that normalization concepts can be made more accessible, reproducible, and useful for real data workflows.</p>
+<p>While the package currently serves as a functional foundation, there is room for future development. Adding more customization, improving accuracy through additional testing, and expanding capabilities to higher normal forms would enhance the usefulness. Together, these developments demonstrate that the package not only achieves the initial goals of evaluating normal form but also provides a robust foundation for future enhancements. This package shows that normalization concepts can be made more accessible, reproducible, and useful for real data workflows.</p>
 </section>
 
 </main>
