@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>NormForm Site</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,15 +61,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
 <script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="index_files/libs/quarto-html/popper.min.js"></script>
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -82,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">index</h1>
+<h1 class="title">NormForm Site</h1>
 </div>
 
 
@@ -105,14 +104,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
-<p>The motivation for developing this package stems from previous issues encountered while working with data sets that lacked clear key structures or violated normalization principles. Determining if a data set meets first or second normal form requirements often requires manual inspection, and identifying valid keys can become computationally expensive as the number of variables increases. Our goal was to develop a set of tools that would make these tasks more accessible to students, researchers, and anyone working with R. In order to accomplish this, we developed the four following functions.</p>
+<p>The motivation for developing this package stems from previous issues encountered while working with data sets that lacked clear key structures or violated normalization principles. Determining if a data set meets first or second normal form requirements often requires manual inspection, and identifying valid keys can become computationally expensive as the number of variables increases. Our goal was to develop a set of tools that would make these tasks more accessible to students, researchers, and anyone working with R. In order to accomplish this, we developed four functions. Additionally, we used three data sets to serve as examples for how the functions work. For each function the logic is outlined, and working drafts of each function were created and tested on several sample data sets:</p>
+<ul>
+<li><p>college: 1372 observations, 29 variables, unique ID variable (unitid), contains data over U.S. colleges and student demographics</p></li>
+<li><p>auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data</p></li>
+<li><p>counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994</p></li>
+</ul>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 398 Columns: 11
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): X4, X9, X10, X11
+dbl (7): X1, X2, X3, X5, X6, X7, X8
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+✔ Setting active project to "C:/Users/Dominic
+  Sander/Documents/Rpackages/normform/NormForm".
+
+✔ Saving "auto" to "data/auto.rda".
+
+☐ Document your data (see &lt;https://r-pkgs.org/data.html&gt;).</code></pre>
+</div>
+</div>
 <section id="is_key" class="level4">
 <h4 class="anchored" data-anchor-id="is_key">is_key</h4>
 <p>Description: This function checks whether a user-specified set of columns is a valid key. The two required arguments include the data set and a list of column(s) being inquired. Output returns a logical result after testing if the listed column(s) is a unique identifier of the data.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(is_key)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(is_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                   
 1 function (data, ..., optional_arguement = FALSE) 
@@ -127,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="find_keys">find_keys</h4>
 <p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size arguement.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                     
 1 function (data, max_size = 1)      
@@ -143,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="first_normal">first_normal</h4>
 <p>Description: This function returns a logical value indicating whether the data set is in first normal form. The first condition of first normal form is all atomic columns and then uses the find_key function to identify a key. If the data is tidy and has a key, then the function will return TRUE and key(s) have been found. The function will return FALSE and will return a message stating which condition is not met</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                                   
 1 function (data, max_size = 2)                                    
@@ -159,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="anchored" data-anchor-id="second_normal">second_normal</h4>
 <p>Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. Next, it needs to check for partial dependencies for keys with &gt;1 columns. For keys that may have partial dependencies, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                                                             
 1 function (data, max_size = 1)                                                              
@@ -175,13 +197,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="process" class="level2">
 <h2 class="anchored" data-anchor-id="process">Process</h2>
-<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. With the logic outlined, working drafts of each function were created and tested on several sample data sets:</p>
-<ul>
-<li><p>college: unique ID variable (unitid)</p></li>
-<li><p>auto: no unique ID variable</p></li>
-<li><p>counties: no unique ID variable</p></li>
-</ul>
-<p>This testing allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
+<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
@@ -243,14 +259,13 @@ Together, these developments demonstrate that the package not only achieves the 
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
         }
-      }
-      return codeEl.innerText;
+        return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

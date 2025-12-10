@@ -1,8 +1,9 @@
 ---
-title: "index"
+title: "NormForm Site"
 format: html
 execute:
   wrap: true
+  output-dir: docs
 ---
 
 ## Introduction
@@ -114,7 +115,7 @@ second_normal <- function(data, max_size = 1) {
   return("TRUE")
 }
 
-load("data-raw/auto.R")
+source("data-raw/auto.R")
 
 
 ```

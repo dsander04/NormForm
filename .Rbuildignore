@@ -2,4 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
-docs
+^docs$
+^index\.html$
+^index_files$
