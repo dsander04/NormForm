@@ -1,4 +1,6 @@
-## code to prepare `auto.csv` data set goes here
-auto <- readr::read_csv("data-raw/auto.csv")
+# data-raw/auto.R
+auto <- readr::read_csv(here::here("data-files", "auto.csv"))
 
+# Save to data/ as auto.rda
 usethis::use_data(auto, overwrite = TRUE)
+
