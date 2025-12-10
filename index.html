@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>NormForm Site</title>
+
+<title>Final Report Index</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -17,7 +18,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
@@ -81,18 +82,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">NormForm Site</h1>
+
+<h1 class="title">Final Report Index</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    
-  
-    
+
+
+
   </div>
-  
+
 
 
 </header>
@@ -108,7 +110,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>college: 1372 observations, 29 variables, unique ID variable (unitid), contains data over U.S. colleges and student demographics</p></li>
 <li><p>auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data</p></li>
+<<<<<<< HEAD
 <li><p>counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994</p></li>
+=======
+<li><p>counties: 100 observations, 18 variables, unique ID variable (RN), contains U.S. census data from 1994</p></li>
+>>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 </ul>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
@@ -134,64 +140,221 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
 <h4 class="anchored" data-anchor-id="is_key">is_key</h4>
 <p>Description: This function checks whether a user-specified set of columns is a valid key. The two required arguments include the data set and a list of column(s) being inquired. Output returns a logical result after testing if the listed column(s) is a unique identifier of the data.</p>
 <div class="cell">
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(is_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(is_key)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+>>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 <div class="cell-output cell-output-stdout">
-<pre><code>                                                   
-1 function (data, ..., optional_arguement = FALSE) 
-2 {                                                
-3     key_candidate &lt;- select(data, ...)           
-4     !any(duplicated(key_candidate))              
-5 }                                                </code></pre>
+<pre><code>function (data, ..., optional_arguement = FALSE)
+{
+    key_candidate &lt;- select(data, ...)
+    !any(duplicated(key_candidate))
+}</code></pre>
 </div>
 </div>
+<p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, <span class="fu">c</span>(region,city))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, unitid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.</p>
 </section>
 <section id="find_keys" class="level4">
 <h4 class="anchored" data-anchor-id="find_keys">find_keys</h4>
-<p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size arguement.</p>
+<p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.</p>
 <div class="cell">
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+>>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 <div class="cell-output cell-output-stdout">
-<pre><code>                                     
-1 function (data, max_size = 1)      
-2 {                                  
-3     cols &lt;- colnames(data)         
-4     n &lt;- length(cols)              
-5     results &lt;- list()              
-6     for (k in 1:min(max_size, n)) {</code></pre>
+<pre><code>function (data, max_size = 1)
+{
+    cols &lt;- colnames(data)
+    n &lt;- length(cols)
+    results &lt;- list()
+    for (k in 1:min(max_size, n)) {
+        combos &lt;- combn(cols, k, simplify = FALSE)
+        for (combo in combos) {
+            if (is_key(data, combo)) {
+                results &lt;- append(results, list(tibble(key_size = k,
+                  columns = paste(combo, collapse = ", "))))
+            }
+        }
+    }
+    if (nrow(bind_rows(results)) == 0) {
+        return(paste0("No keys of size ", max_size, " found, pick larger max size"))
+    }
+    else {
+        bind_rows(results)
+    }
+}</code></pre>
 </div>
 </div>
+<p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  key_size columns
+     &lt;int&gt; &lt;chr&gt;
+1        1 RN
+2        1 totpop
+3        1 enroll
+4        1 civlabor
+5        1 unemp   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 141 × 2
+   key_size columns
+      &lt;int&gt; &lt;chr&gt;
+ 1        1 RN
+ 2        1 totpop
+ 3        1 enroll
+ 4        1 civlabor
+ 5        1 unemp
+ 6        2 RN, state
+ 7        2 RN, county
+ 8        2 RN, landarea
+ 9        2 RN, totpop
+10        2 RN, physician
+# ℹ 131 more rows</code></pre>
+</div>
+</div>
+<p>In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.</p>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "No keys of size 2 found, pick larger max size"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  key_size columns
+     &lt;int&gt; &lt;chr&gt;
+1        3 X1, X7, X10
+2        3 X5, X6, X7
+3        3 X5, X7, X10
+4        3 X6, X7, X10</code></pre>
+</div>
+</div>
+<p>Using the auto data, which has unique identifying variable, we can see that there are no keys of size 2 or smaller, resulting in an error message. By increasing the max_size, the function is able to identify keys of size 3.</p>
 </section>
 <section id="first_normal" class="level4">
 <h4 class="anchored" data-anchor-id="first_normal">first_normal</h4>
 <p>Description: This function returns a logical value indicating whether the data set is in first normal form. The first condition of first normal form is all atomic columns and then uses the find_key function to identify a key. If the data is tidy and has a key, then the function will return TRUE and key(s) have been found. The function will return FALSE and will return a message stating which condition is not met</p>
 <div class="cell">
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+>>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 <div class="cell-output cell-output-stdout">
-<pre><code>                                                                   
-1 function (data, max_size = 2)                                    
-2 {                                                                
-3     is_atomic &lt;- function(x) {                                   
-4         all(!sapply(x, function(v) length(v) != 1 || is.list(v)))
-5     }                                                            
-6     atomic_cols &lt;- sapply(data, is_atomic)                       </code></pre>
+<pre><code>function (data, max_size = 2)
+{
+    is_atomic &lt;- function(x) {
+        all(!sapply(x, function(v) length(v) != 1 || is.list(v)))
+    }
+    atomic_cols &lt;- sapply(data, is_atomic)
+    if (!all(atomic_cols)) {
+        return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
+    }
+    result &lt;- find_keys(data, max_size = max_size)
+    result
+    if (is.character(result)) {
+        return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
+    }
+    return("TRUE")
+}</code></pre>
 </div>
 </div>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "TRUE"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "FALSE: Dataset is NOT in First Normal Form, no candidate key exists"</code></pre>
+</div>
+</div>
+<p>Using the first_normal function on the college data reveals that it is in first normal form by having atomic columns and at least one key. In contrast, the auto data set is not in first normal form since no keys of size 2 or smaller exist.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "TRUE"</code></pre>
+</div>
+</div>
+<p>When we raise the maz_size of keys to 3, the auto data can now be considered to be in first normal form.</p>
 </section>
 <section id="second_normal" class="level4">
 <h4 class="anchored" data-anchor-id="second_normal">second_normal</h4>
 <p>Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. Next, it needs to check for partial dependencies for keys with &gt;1 columns. For keys that may have partial dependencies, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.</p>
 <div class="cell">
+<<<<<<< HEAD
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+=======
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+>>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 <div class="cell-output cell-output-stdout">
-<pre><code>                                                                                             
-1 function (data, max_size = 1)                                                              
-2 {                                                                                          
-3     result &lt;- first_normal(data, max_size = max_size)                                      
-4     key_results &lt;- find_keys(data, max_size = max_size)                                    
-5     if (result == "FALSE: Dataset is NOT in First Normal Form, no candidate key exists" |  
-6         result == "FALSE: Dataset is NOT in First Normal Form, non-atomic columns found") {</code></pre>
+<pre><code>function (data, max_size = 1)
+{
+    result &lt;- first_normal(data, max_size = max_size)
+    key_results &lt;- find_keys(data, max_size = max_size)
+    if (result == "FALSE: Dataset is NOT in First Normal Form, no candidate key exists" |
+        result == "FALSE: Dataset is NOT in First Normal Form, non-atomic columns found") {
+        return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
+    }
+    for (i in seq_len(nrow(key_results))) {
+        key_cols &lt;- unlist(strsplit(key_results$columns[i], ", "))
+        if (length(key_cols) &gt; 1) {
+            subsets &lt;- unlist(lapply(1:(length(key_cols) - 1),
+                function(k) combn(key_cols, k, simplify = FALSE)),
+                recursive = FALSE)
+            for (subset in subsets) {
+                if (!any(duplicated(data[subset]))) {
+                  return(paste0("FALSE: Dataset is NOT in Second Normal Form. ",
+                    "Partial dependency detected: subset {",
+                    paste(subset, collapse = ", "), "} uniquely identifies rows."))
+                }
+            }
+        }
+    }
+    return("TRUE")
+}</code></pre>
 </div>
 </div>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "TRUE"</code></pre>
+</div>
+</div>
+<p>The function reveals that the college data set is in second normal form without needing any alteration. Notably, running only this function on a data set and receiving a TRUE result implies that at least one key exists and the data is in first normal form.</p>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "TRUE"</code></pre>
+</div>
+</div>
+<p>When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size 2 exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form.</p>
 </section>
 </section>
 </section>
@@ -202,8 +365,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>While focusing on creating a package to help users evaluate normal forms and identify keys within relational data sets, the package was developed. Implementing functions that check key validity, search for minimal keys, and assess first and second normal form conditions helped us produce a set of tools that make database concepts easier to apply in everyday data analysis.</p>
-<p>While the package currently serves as a functional foundation, there is room for future development. Adding more customization, improving accuracy through additional testing, and expanding capabilities to higher normal forms would enhance the usefulness.<br>
-Together, these developments demonstrate that the package not only achieves the initial goals of evaluating normal form but also provides a robust foundation for future enhancements. This package shows that normalization concepts can be made more accessible, reproducible, and useful for real data workflows.</p>
+<p>While the package currently serves as a functional foundation, there is room for future development. Adding more customization, improving accuracy through additional testing, and expanding capabilities to higher normal forms would enhance the usefulness. Together, these developments demonstrate that the package not only achieves the initial goals of evaluating normal form but also provides a robust foundation for future enhancements. This package shows that normalization concepts can be made more accessible, reproducible, and useful for real data workflows.</p>
 </section>
 
 </main>
@@ -219,7 +381,7 @@ Together, these developments demonstrate that the package not only achieves the 
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
+        if (clz.startsWith('code-annotation-')) {
           return true;
         }
       }
@@ -239,11 +401,11 @@ Together, these developments demonstrate that the package not only achieves the 
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();    
+        tooltip.show();
       }
       setTimeout(function() {
         if (tooltip) {
@@ -319,7 +481,7 @@ Together, these developments demonstrate that the package not only achieves the 
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config); 
+      window.tippy(el, config);
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -394,7 +556,7 @@ Together, these developments demonstrate that the package not only achieves the 
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined; 
+        let hash = undefined;
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -422,7 +584,7 @@ Together, these developments demonstrate that the package not only achieves the 
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              } 
+              }
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -446,7 +608,7 @@ Together, these developments demonstrate that the package not only achieves the 
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            } 
+            }
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -486,7 +648,7 @@ Together, these developments demonstrate that the package not only achieves the 
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
+              // cook up a div (if necessary) and position it
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");
