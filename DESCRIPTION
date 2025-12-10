@@ -33,4 +33,5 @@ Depends:
     R (>= 3.5)
 Imports: 
     dplyr,
-    purrr
+    tibble,
+    utils

@@ -24,3 +24,7 @@ If `FALSE` is returned, one of two messages will print:
 - `"Dataset is NOT in First Normal Form, non-atomic columns found"`
 (when one or more columns include contain multiple values in the same row)
 }
+\examples{
+second_normal(auto, max_size = 2)
+
+}

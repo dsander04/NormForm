@@ -5,13 +5,15 @@
 #' @param optional_argument binary, defaluts to `FALSE`
 #' @return logical value: `TRUE`, if the specified variable (combination) is a key,
 #' `FALSE` otherwise
+
 #' @importFrom dplyr select
+
 #' @examples
 #' data(college)
 #' is_key(college, name)
 #'
 #' @export
-is_key <- function(data, ..., optional_arguement = FALSE) {
+is_key <- function(data, ..., optional_argument = FALSE) {
   key_candidate <- data |> select(...)
   !any(duplicated(key_candidate))
 }

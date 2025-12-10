@@ -11,6 +11,10 @@
 #' @examples
 #' find_keys(college)
 #'
+#' @importFrom utils combn
+#' @importFrom tibble tibble
+#' @importFrom dplyr bind_rows
+#'
 #' @export
 
 find_keys <- function(data, max_size = 1) {

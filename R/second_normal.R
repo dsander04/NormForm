@@ -12,7 +12,7 @@
 #' - `"Dataset is NOT in First Normal Form, non-atomic columns found"`
 #' (when one or more columns include contain multiple values in the same row)
 #'
-#' @example
+#' @examples
 #' second_normal(auto, max_size = 2)
 #'
 #' @export
