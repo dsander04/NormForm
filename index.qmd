@@ -131,7 +131,7 @@ after testing if the listed column(s) is a unique identifier of the
 data.
 
 ```{r}
-head(is_key)
+print(is_key)
 ```
 
 Example:
@@ -153,11 +153,11 @@ data set that are the equal to or less than the specified max_size
 argument.
 
 ```{r}
-head(find_keys)
+print(find_keys)
 ```
 
 Example:
-```{r, message=FALSE}
+```{r, warning=FALSE}
 find_keys(counties) 
 find_keys(counties, max_size = 2)
 ```
@@ -179,7 +179,7 @@ will return TRUE and key(s) have been found. The function will return
 FALSE and will return a message stating which condition is not met
 
 ```{r}
-head(first_normal)
+print(first_normal)
 ```
 
 Example
@@ -208,7 +208,7 @@ dependency. The output of this function include a logical result, and a
 message stating which condition was not met when the result is FALSE.
 
 ```{r}
-head(second_normal)
+print(second_normal)
 ```
 
 Example
