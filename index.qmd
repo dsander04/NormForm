@@ -1,5 +1,206 @@
 ---
 title: "index"
 format: html
+execute:
+  wrap: true
 ---
 
+## Introduction
+
+  Relational databases rely on well-defined structures to reduce repetition, ensure consistency, and support efficient data usage. In practice, however, data analysts work with data sets that are messy, with unclear keys. While there are existing R packages, such as testdat, that offer tools for data quality, support for functions that directly assess normal forms or assist in finding keys is limited. Our project addresses that gap by creating an R package that provides intuitive functionality for determining keys and evaluating normal forms. 
+  Our package, called NormForm, introduces a set of tools to help R users identify potential keys, test whether selected attributes are valid keys, and determine whether or not a data set satisfies the first and second normal form requirements. Collectively, these functions support more efficient data organization and improve the reliability of analyses, along with providing a structured approach to preparing data sets for relational analysis. The NormForm bridges the gap between theoretical principles and practical application, making relational database concepts more accessible to all users. 
+
+## Motivation
+        
+  The motivation for developing this package stems from previous issues encountered while working with data sets that lacked clear key structures or violated normalization principles. Determining if a data set meets first or second normal form requirements often requires manual inspection, and identifying valid keys can become computationally expensive as the number of variables increases. Our goal was to develop a set of tools that would make these tasks more accessible to students, researchers, and anyone working with R. In order to accomplish this, we developed four functions. Additionally, we used three data sets to serve as examples for how the functions work. For each function the logic is outlined, and working drafts of each function were created and tested on several sample data sets: 
+
+-   college: 1372 observations, 29 variables, unique ID variable (unitid), contains data over U.S. colleges and student demographics 
+
+-   auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data
+
+-   counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994
+
+### Functions
+
+```{r, echo = FALSE}
+is_key <- function(data, ..., optional_arguement = FALSE) {
+  key_candidate <- data |> select(...)
+  !any(duplicated(key_candidate))
+}
+
+find_keys <- function(data, max_size = 1) { 
+  cols <- colnames(data) 
+  n <- length(cols) 
+  results <- list() 
+  
+  for (k in 1:min(max_size, n)) { 
+    combos <- combn(cols, k, simplify = FALSE) 
+    
+    for (combo in combos) { 
+      if (is_key(data, combo)) { 
+        results <- append(results, list( 
+          tibble(key_size = k, columns = paste(combo, collapse = ", ")) 
+          )) 
+        } 
+      } 
+    } 
+  
+  if (nrow(bind_rows(results)) == 0) { 
+    return(paste0("No keys of size ", max_size, " found, pick larger max size")) 
+    } else { 
+      bind_rows(results) 
+      } 
+} 
+
+first_normal <- function(data, max_size = 2) {
+  
+  is_atomic <- function(x) {
+    all(!sapply(x, function(v) length(v) != 1 || is.list(v)))
+  }
+  
+  atomic_cols <- sapply(data, is_atomic)
+  
+  if (!all(atomic_cols)) {
+    return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
+  }
+
+      result <- find_keys(data, max_size = max_size)
+      result
+      
+  if (is.character(result)) {
+    return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
+  }
+  
+  return("TRUE")
+}
+
+second_normal <- function(data, max_size = 1) {
+
+  result <- first_normal(data, max_size = max_size)
+  key_results <- find_keys(data, max_size = max_size)
+
+  if (result == "FALSE: Dataset is NOT in First Normal Form, no candidate key exists" | 
+      result == "FALSE: Dataset is NOT in First Normal Form, non-atomic columns found") {
+    return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
+  }
+
+  for (i in seq_len(nrow(key_results))) {
+
+    key_cols <- unlist(strsplit(key_results$columns[i], ", "))
+
+    if (length(key_cols) > 1) { 
+      
+      subsets <- unlist(
+        lapply(1:(length(key_cols) - 1),
+               function(k) combn(key_cols, k, simplify = FALSE)
+        ),
+        recursive = FALSE
+      )
+
+      for (subset in subsets) {
+
+        if (!any(duplicated(data[subset]))) {
+          return(paste0(
+            "FALSE: Dataset is NOT in Second Normal Form. ",
+            "Partial dependency detected: subset {",
+            paste(subset, collapse = ", "),
+            "} uniquely identifies rows."
+          ))
+        }
+      }
+    }
+  }
+
+  return("TRUE")
+}
+
+load("data-raw/auto.R")
+
+
+```
+
+#### is_key
+
+Description: This function checks whether a user-specified set of
+columns is a valid key. The two required arguments include the data set
+and a list of column(s) being inquired. Output returns a logical result
+after testing if the listed column(s) is a unique identifier of the
+data.
+
+```{r}
+head(is_key)
+```
+
+#### find_keys
+
+Description: This function searches for the smallest possible keys in
+the data set and can be extended to longer lengths with argument
+max_size to control the size of combinations considered. Keys are found
+by cycling through subset combinations of columns and using is_key to
+test the key status. Output includes all keys that uniquely identify the
+data set that are the equal to or less than the specified max_size
+arguement.
+
+```{r}
+head(find_keys)
+```
+
+#### first_normal
+
+Description: This function returns a logical value indicating whether
+the data set is in first normal form. The first condition of first
+normal form is all atomic columns and then uses the find_key function to
+identify a key. If the data is tidy and has a key, then the function
+will return TRUE and key(s) have been found. The function will return
+FALSE and will return a message stating which condition is not met
+
+```{r}
+head(first_normal)
+```
+
+#### second_normal
+
+Description: This function tests for second normal form conditions and
+returns a logical value like that of first_normal. The first condition
+is that the data much be in first normal form, so the function
+first_normal is used to verify. Next, it needs to check for partial
+dependencies for keys with \>1 columns. For keys that may have partial
+dependencies, every possible subset combination will be created and
+tested for duplicates. If there are no duplicates, then the subset is a
+smaller unique key and therefore the original key has a partial
+dependency. The output of this function include a logical result, and a
+message stating which condition was not met when the result is FALSE.
+
+```{r}
+head(second_normal)
+```
+
+## Process
+        
+  To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. 
+  A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. 
+  Testing with the chosen data sets allowed us to verify correctness and refine the
+functions. Throughout this process, each function was developed
+independently, but was designed to work together. An example of this
+can be seen in using is_key() inside find_keys() and using both the
+normal form checks. Practical considerations such as missing data
+and data types were also evaluated. These considerations helped
+guide the development of optional arguments and error messages that
+clarify to the user why a function fails when expected conditions
+are not met. Future improvements were noted for the package. These
+included additional customization options, more extensive testing,
+and more structural alignment with tidyverse.
+
+## Conclusion
+
+  While focusing on creating a package to help users evaluate normal forms and identify keys within relational data sets, the package was developed. Implementing functions that check key validity, search for minimal keys, and assess first and second normal form conditions helped us produce a set of tools that make database concepts easier to apply in everyday data analysis. 
+
+  While the package currently serves as a functional foundation, there is
+room for future development. Adding more customization, improving
+accuracy through additional testing, and expanding capabilities to
+higher normal forms would enhance the usefulness.\
+  Together, these developments demonstrate that the package not only
+achieves the initial goals of evaluating normal form but also provides a
+robust foundation for future enhancements. This package shows that
+normalization concepts can be made more accessible, reproducible, and
+useful for real data workflows.
