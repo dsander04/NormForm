@@ -22,3 +22,19 @@
 #' @format The data is 398 rows of 11 variables
 #'
 "auto"
+
+#' County and City Data Book
+#'
+#' A data set that contains census SRS data from U.S. counties over population demographics.
+#'
+#' The data was originally sourced from the U.S. Census Bureau in 1994. Original resource at
+#' \url{https://archive.org/details/countycitydatabo00clai} and was found in the R companion
+#' textbook Using R Software with Sampling: Design and Analysis at
+#' \url{https://www.sharonlohr.com/sampling-design-and-analysis-3e}
+#'
+#' @format The data is 100 rows of 18 variables
+#'
+"counties"
+
+
+
