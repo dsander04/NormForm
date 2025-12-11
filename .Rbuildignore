@@ -2,6 +2,8 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^data-raw$
+^data-files$
 ^docs$
+^index\.qmd$
 ^index\.html$
 ^index_files$

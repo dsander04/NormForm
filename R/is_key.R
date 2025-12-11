@@ -10,7 +10,7 @@
 
 #' @examples
 #' data(college)
-#' is_key(college, name)
+#' is_key(college, city)
 #'
 #' @export
 is_key <- function(data, ..., optional_argument = FALSE) {
