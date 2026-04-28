@@ -26,12 +26,27 @@ The motivation for developing this package stems from previous issues encountere
 library(dplyr)
 library(purrr)
 
-is_key <- function(data, ..., optional_arguement = FALSE) {
-  key_candidate <- data |> select(...)
-  !any(duplicated(key_candidate))
+is_key <- function(data, cols) {
+  !any(duplicated(data[, cols, drop = FALSE]))
 }
 
-find_keys <- function(data, max_size = 1) { 
+key_cache <- new.env(parent = emptyenv())
+
+is_key_cached <- function(data, cols) {
+  key <- paste(sort(cols), collapse = "|")
+  
+  if (exists(key, envir = key_cache)) {
+    return(get(key, envir = key_cache))
+  }
+  
+  val <- is_key(data, cols)
+  assign(key, val, envir = key_cache)
+  val
+}
+```
+
+```{r}
+find_keys <- function(data, max_size = 3) { 
   cols <- colnames(data) 
   n <- length(cols) 
   results <- list() 
@@ -53,8 +68,54 @@ find_keys <- function(data, max_size = 1) {
     } else { 
       bind_rows(results) 
       } 
-} 
+}
+```
 
+```{r}
+find_minimal_keys <- function(data, max_size = 2) {
+  cols <- colnames(data)
+  n <- length(cols)
+  all_keys <- list()
+  
+  for (k in 1:min(max_size, n)) {
+    combos <- combn(cols, k, simplify = FALSE)
+    
+    for (combo in combos) {
+      if (is_key(data, all_of(combo))) {
+        all_keys <- append(all_keys, list(combo))
+      }
+    }
+  }
+  
+  minimal_keys <- list()
+  
+  for (key in all_keys) {
+    is_minimal <- TRUE
+    
+    for (other in all_keys) {
+      if (length(other) < length(key) &&
+          all(other %in% key)) {
+        is_minimal <- FALSE
+        break
+      }
+    }
+    
+    if (is_minimal) {
+      minimal_keys <- append(minimal_keys, list(key))
+    }
+  }
+  
+  if (length(minimal_keys) == 0) {
+    return(NULL)
+  }
+  
+  tibble(key_size = sapply(minimal_keys, length), 
+         columns = sapply(minimal_keys, paste, collapse = ", ")
+  )
+}
+```
+
+```{r}
 first_normal <- function(data, max_size = 2) {
   
   is_atomic <- function(x) {
@@ -67,20 +128,21 @@ first_normal <- function(data, max_size = 2) {
     return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
   }
 
-      result <- find_keys(data, max_size = max_size)
-      result
-      
-  if (is.character(result)) {
+      result <- find_minimal_keys(data, max_size)
+
+  if (is.null(result) | is.character(result)) {
     return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
   }
   
   return("TRUE")
 }
+```
 
+```{r}
 second_normal <- function(data, max_size = 2) {
 
   result <- first_normal(data, max_size = max_size)
-  key_results <- find_keys(data, max_size = max_size)
+  key_results <- find_minimal_keys(data, max_size = max_size)
 
   if (grepl("FALSE", result)) {
     return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
@@ -115,58 +177,50 @@ second_normal <- function(data, max_size = 2) {
 
   return("TRUE")
 }
-
-
-source("data-raw/auto.R")
-
-
-
-data("auto")
-data("college")
-data("counties")
-
 ```
 
 ```{r}
-
 third_normal <- function(data, max_size = 2) {
   
-  result <- second_normal(data, max_size = max_size)
-  key_results <- find_keys(data, max_size = max_size)
-  all_cols <- colnames(data)
-
-  if (grepl("FALSE", result)) {
+  result_2nf <- second_normal(data, max_size = max_size)
+  if (grepl("FALSE", result_2nf)) {
     return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
   }
   
-  for (i in seq_len(nrow(key_results))) {
+  key_results <- find_minimal_keys(data, max_size = max_size)
+  
+  if (is.null(key_results) || nrow(key_results) == 0) {
+    return("FALSE: No candidate keys found")
+  }
+  
+  all_cols <- colnames(data)
+  
+  keys_list <- lapply(key_results$columns, function(x) strsplit(x, ", ")[[1]])
+  prime_attrs <- unique(unlist(keys_list))
+  non_key_attrs <- setdiff(all_cols, prime_attrs)
+
+  for (target in non_key_attrs) {
     
-    key_cols <- unlist(strsplit(key_results$columns[i], ", "))
-    non_key_cols <- setdiff(all_cols, key_cols)
+    others <- setdiff(non_key_attrs, target)
     
-    if (length(non_key_cols) > 1) {
+    max_det_size <- min(2, length(others))
+    
+    for (k in 1:max_det_size) {
+      subsets <- combn(others, k, simplify = FALSE)
       
-      for (col in non_key_cols) {
+      for (subset in subsets) {
         
-        other_cols <- setdiff(non_key_cols, col)
+        if (is_key_cached(data, subset)) next
         
-        for (k in 1:length(other_cols)) {
+        if (!any(duplicated(data[subset]))) {
           
-          subsets <- combn(other_cols, k, simplify = FALSE)
-          
-          for (subset in subsets) {
-            
-            temp <- data[, c(subset, col), drop = FALSE]
-            
-            if (!any(duplicated(temp[subset]))) {
-              return(paste0(
-                "FALSE: Dataset is NOT in Third Normal Form. ",
-                "Transitive dependency detected: {",
-                paste(subset, collapse = ", "),
-                "} -> ", col
-              ))
-            }
-          }
+          return(paste0(
+            "FALSE: Dataset is NOT in Third Normal Form. ",
+            "Possible transitive dependency: {",
+            paste(subset, collapse = ", "),
+            "} -> ", target,
+            ". (May be data-specific coincidence)"
+          ))
         }
       }
     }
@@ -179,10 +233,20 @@ third_normal(auto)
 second_normal(auto)
 first_normal(auto)
 
+third_normal(college, max_size = 2)
+second_normal(college, max_size = 1)
+
 third_normal(college)
 second_normal(college)
 
-#need to find a way to flexibly try different max sizes 
+third_normal(counties)
+second_normal(counties, max_size = 1)
+```
+
+```{r}
+data("auto")
+data("college")
+data("counties")
 ```
 
 #### is_key
