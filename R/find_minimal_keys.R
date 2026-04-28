@@ -17,26 +17,44 @@
 #'
 #' @export
 
-find_keys <- function(data, max_size = 1) {
+find_minimal_keys <- function(data, max_size = 2) {
   cols <- colnames(data)
   n <- length(cols)
-  results <- list()
+  all_keys <- list()
 
   for (k in 1:min(max_size, n)) {
     combos <- combn(cols, k, simplify = FALSE)
 
     for (combo in combos) {
-      if (is_key(data, combo)) {
-        results <- append(results, list(
-          tibble(key_size = k, columns = paste(combo, collapse = ", "))
-        ))
+      if (is_key(data, all_of(combo))) {
+        all_keys <- append(all_keys, list(combo))
       }
     }
   }
 
-  if (nrow(bind_rows(results)) == 0) {
-    return(paste0("No keys of size ", max_size, " found, pick larger max size"))
-  } else {
-    bind_rows(results)
+  minimal_keys <- list()
+
+  for (key in all_keys) {
+    is_minimal <- TRUE
+
+    for (other in all_keys) {
+      if (length(other) < length(key) &&
+          all(other %in% key)) {
+        is_minimal <- FALSE
+        break
+      }
+    }
+
+    if (is_minimal) {
+      minimal_keys <- append(minimal_keys, list(key))
+    }
   }
+
+  if (length(minimal_keys) == 0) {
+    return(NULL)
+  }
+
+  tibble(key_size = sapply(minimal_keys, length),
+         columns = sapply(minimal_keys, paste, collapse = ", ")
+  )
 }

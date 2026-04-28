@@ -16,13 +16,12 @@
 #' second_normal(auto, max_size = 2)
 #'
 #' @export
-second_normal <- function(data, max_size = 1) {
+second_normal <- function(data, max_size = 2) {
 
   result <- first_normal(data, max_size = max_size)
-  key_results <- find_keys(data, max_size = max_size)
+  key_results <- find_minimal_keys(data, max_size = max_size)
 
-  if (result == "FALSE: Dataset is NOT in First Normal Form, no candidate key exists" |
-      result == "FALSE: Dataset is NOT in First Normal Form, non-atomic columns found") {
+  if (grepl("FALSE", result)) {
     return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
   }
 

@@ -27,10 +27,9 @@ first_normal <- function(data, max_size = 2) {
     return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
   }
 
-  result <- find_keys(data, max_size = max_size)
-  result
+  result <- find_minimal_keys(data, max_size)
 
-  if (is.character(result)) {
+  if (is.null(result) | is.character(result)) {
     return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
   }
 

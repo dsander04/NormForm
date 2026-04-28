@@ -13,7 +13,9 @@
 #' is_key(college, city)
 #'
 #' @export
-is_key <- function(data, ..., optional_argument = FALSE) {
-  key_candidate <- data |> select(...)
-  !any(duplicated(key_candidate))
+
+is_key <- function(data, cols) {
+  !any(duplicated(data[, cols, drop = FALSE]))
 }
+
+
