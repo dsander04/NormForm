@@ -7,3 +7,5 @@
 ^index\.qmd$
 ^index\.html$
 ^index_files$
+^\.positai$
+^\.claude$
