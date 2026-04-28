@@ -22,6 +22,8 @@ The motivation for developing this package stems from previous issues encountere
 
 ### Functions
 
+Is_key / is_key_cached
+
 ```{r, echo = FALSE, message=FALSE}
 library(dplyr)
 library(purrr)
@@ -44,6 +46,8 @@ is_key_cached <- function(data, cols) {
   val
 }
 ```
+
+Find_keys
 
 ```{r}
 find_keys <- function(data, max_size = 3) { 
@@ -70,6 +74,8 @@ find_keys <- function(data, max_size = 3) {
       } 
 }
 ```
+
+Find_minimal_keys
 
 ```{r}
 find_minimal_keys <- function(data, max_size = 2) {
@@ -115,6 +121,8 @@ find_minimal_keys <- function(data, max_size = 2) {
 }
 ```
 
+First_normal
+
 ```{r}
 first_normal <- function(data, max_size = 2) {
   
@@ -137,6 +145,8 @@ first_normal <- function(data, max_size = 2) {
   return("TRUE")
 }
 ```
+
+Second_normal
 
 ```{r}
 second_normal <- function(data, max_size = 2) {
@@ -178,6 +188,8 @@ second_normal <- function(data, max_size = 2) {
   return("TRUE")
 }
 ```
+
+Third_normal
 
 ```{r}
 third_normal <- function(data, max_size = 2) {
@@ -260,25 +272,25 @@ print(is_key)
 Example:
 
 ```{r}
-is_key(college, c(region,city))
-is_key(college, unitid)
+is_key(college, c("region", "city"))
+is_key(college, "unitid")
 ```
 
 Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.
 
-#### find_keys
+#### find_minimal_keys
 
 Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.
 
 ```{r}
-print(find_keys)
+print(find_minimal_keys)
 ```
 
 Example:
 
 ```{r, warning=FALSE}
-find_keys(counties) 
-find_keys(counties, max_size = 2)
+find_minimal_keys(counties, max_size = 1) 
+find_minimal_keys(counties)
 ```
 
 In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.
@@ -286,8 +298,8 @@ In this example, there are uniquely identifying keys of one column. The RN is a 
 Example
 
 ```{r}
-find_keys(auto, max_size = 2)
-find_keys(auto, max_size = 3)
+find_minimal_keys(auto, max_size = 2)
+find_minimal_keys(auto, max_size = 3)
 ```
 
 Using the auto data, which has unique identifying variable, we can see that there are no keys of size 2 or smaller, resulting in an error message. By increasing the max_size, the function is able to identify keys of size 3.
@@ -314,11 +326,11 @@ Using the first_normal function on the college data reveals that it is in first 
 first_normal(auto, max_size = 3)
 ```
 
-When we raise the maz_size of keys to 3, the auto data can now be considered to be in first normal form.
+When we raise the max_size of keys to 3, the auto data can now be considered to be in first normal form.
 
 #### second_normal
 
-Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. Next, it needs to check for partial dependencies for keys with \>1 columns. For keys that may have partial dependencies, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.
+Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. The second condition requires that no partial dependencies exists, meaning that non-key attribute depend on the entirity of the primary key. A key consisting of a single attribute is automatrically in second normal form. To check for partial dependencies for keys with \>1 columns, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.
 
 ```{r}
 print(second_normal)
@@ -339,17 +351,38 @@ second_normal(auto, max_size = 2)
 second_normal(auto, max_size = 3)
 ```
 
-When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size 2 exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form.
+When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size two exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form. Although a three-column key is not ideal in a data set with only eleven variables, but this is a useful feature for very large data sets.
 
 #### third_normal
 
-Description:
+Description: This function tested a data set for third normal form. The two requirements for this form are being in second normal form and no existing transitive dependencies. Transitive dependencies exist when non-key attributes are dependent on other non-key attributes. All variables need to depend exclusively on the key. Third_normal checks for these dependencies by testing if any non-key subset can completely identify (in the same way a key would) another non-key attribute.
+
+An important part of understanding third normal form is there is the possibility for **coincidental uniqueness**. This occurs when a subset of non-key attributes uniquely identifies another non-key attribute in an inconsequential way. While checks are in place to minimize false positives, the chosen language of "possible transitive dependency" was used. Dependencies flagged should be scrutinized for validity.
+
+```{r}
+print(third_normal)
+```
 
 Example
 
+```{r}
+third_normal(auto)
+third_normal(auto, max_size = 3)
+```
+
+Similar to the logic of the previous normal form functions, a TRUE result implies at least one key exists and all lower normal forms are satisfied. A FALSE result supplies the reasoning for the data not being in third normal form.
+
+Coincidental Uniqueness Example
+
+```{r}
+# add in non-interactible code with result from old version of third_normal where college flagged a transitive dependency, and explain how it was fixed 
+```
+
+The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is
+
 ## Process
 
-To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.
+To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys and three layers of normal forms, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.
 
 ## Conclusion
 
