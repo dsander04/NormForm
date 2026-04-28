@@ -4,7 +4,7 @@
 \alias{second_normal}
 \title{function to check whether a dataset is in second normal form}
 \usage{
-second_normal(data, max_size = 1)
+second_normal(data, max_size = 2)
 }
 \arguments{
 \item{data}{data frame}

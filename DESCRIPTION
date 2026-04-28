@@ -27,10 +27,14 @@ Description: This package introduces a set of tools to help R
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: 
     R (>= 3.5)
 Imports: 
     dplyr,
     tibble,
     utils
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

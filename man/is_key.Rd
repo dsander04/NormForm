@@ -4,7 +4,7 @@
 \alias{is_key}
 \title{Assess whether a proposed (set of) variable(s) is a key}
 \usage{
-is_key(data, ..., optional_argument = FALSE)
+is_key(data, cols)
 }
 \arguments{
 \item{data}{data frame or tibble}

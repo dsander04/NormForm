@@ -1,0 +1,29 @@
+---
+title: "Working with NormForm"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with NormForm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview
+
+
+
+## Installation
+```{r}
+
+```
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(NormForm)
+```
