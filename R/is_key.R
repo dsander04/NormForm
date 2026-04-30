@@ -1,21 +1,16 @@
-#' Assess whether a proposed (set of) variable(s) is a key
+#' Assess whether a proposed set of variables is a key
 #'
-#' @param data data frame or tibble
-#' @param ... variables to be considered as a key
-#' @param optional_argument binary, defaluts to `FALSE`
-#' @return logical value: `TRUE`, if the specified variable (combination) is a key,
-#' `FALSE` otherwise
-
-#' @importFrom dplyr select
-
+#' @param data A data frame or tibble
+#' @param cols A character vector of column names to be considered as a key
+#'
+#' @return Logical value: `TRUE` if the specified column combination is a key,
+#'   `FALSE` otherwise
+#'
 #' @examples
 #' data(college)
 #' is_key(college, "city")
 #'
 #' @export
-
 is_key <- function(data, cols) {
   !any(duplicated(data[, cols, drop = FALSE]))
 }
-
-

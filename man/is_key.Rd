@@ -2,26 +2,24 @@
 % Please edit documentation in R/is_key.R
 \name{is_key}
 \alias{is_key}
-\title{Assess whether a proposed (set of) variable(s) is a key}
+\title{Assess whether a proposed set of variables is a key}
 \usage{
 is_key(data, cols)
 }
 \arguments{
-\item{data}{data frame or tibble}
+\item{data}{A data frame or tibble}
 
-\item{...}{variables to be considered as a key}
-
-\item{optional_argument}{binary, defaluts to `FALSE`}
+\item{cols}{A character vector of column names to be considered as a key}
 }
 \value{
-logical value: `TRUE`, if the specified variable (combination) is a key,
-`FALSE` otherwise
+Logical value: `TRUE` if the specified column combination is a key,
+  `FALSE` otherwise
 }
 \description{
-Assess whether a proposed (set of) variable(s) is a key
+Assess whether a proposed set of variables is a key
 }
 \examples{
 data(college)
-is_key(college, city)
+is_key(college, "city")
 
 }

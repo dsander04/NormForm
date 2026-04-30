@@ -60,7 +60,7 @@ find_keys <- function(data, max_size = 2) {
     combos <- combn(cols, k, simplify = FALSE)
     
     for (combo in combos) {
-      if (is_key(data, all_of(combo))) {
+      if (is_key(data, tidyselect::all_of(combo))) {
         all_keys <- append(all_keys, list(combo))
       }
     }
