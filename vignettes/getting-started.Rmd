@@ -8,13 +8,10 @@ vignette: >
 ---
 
 ## Overview
+Relational databases rely on well-defined structures to reduce repetition, ensure consistency, and support efficient data usage. In practice, however, data analysts work with data sets that are messy, with unclear keys. While there are existing R packages, such as testdat, that offer tools for data quality, support for functions that directly assess normal forms or assist in finding keys is limited. This project addresses that gap by creating an R package that provides intuitive functionality for determining keys and evaluating normal forms. Our package, called NormForm, introduces a set of tools to help R users identify potential keys, test whether selected attributes are valid keys, and determine whether or not a data set satisfies the first and second normal form requirements. Collectively, these functions support more efficient data organization and improve the reliability of analyses, along with providing a structured approach to preparing data sets for relational analysis. The NormForm bridges the gap between theoretical principles and practical application, making relational database concepts more accessible to all users.
 
 
 
-## Installation
-```{r}
-
-```
 
 
 ```{r, include = FALSE}
