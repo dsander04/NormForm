@@ -19,7 +19,7 @@
 second_normal <- function(data, max_size = 2) {
 
   result <- first_normal(data, max_size = max_size)
-  key_results <- find_minimal_keys(data, max_size = max_size)
+  key_results <- find_keys(data, max_size = max_size)
 
   if (grepl("FALSE", result)) {
     return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")

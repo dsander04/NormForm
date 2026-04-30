@@ -22,7 +22,7 @@ The motivation for developing this package stems from previous issues encountere
 
 ### Functions
 
-Is_key / is_key_cached
+#### is_key
 
 ```{r, echo = FALSE, message=FALSE}
 library(dplyr)
@@ -31,54 +31,12 @@ library(purrr)
 is_key <- function(data, cols) {
   !any(duplicated(data[, cols, drop = FALSE]))
 }
-
-key_cache <- new.env(parent = emptyenv())
-
-is_key_cached <- function(data, cols) {
-  key <- paste(sort(cols), collapse = "|")
-  
-  if (exists(key, envir = key_cache)) {
-    return(get(key, envir = key_cache))
-  }
-  
-  val <- is_key(data, cols)
-  assign(key, val, envir = key_cache)
-  val
-}
 ```
 
-Find_keys
+#### find_keys
 
 ```{r}
-find_keys <- function(data, max_size = 3) { 
-  cols <- colnames(data) 
-  n <- length(cols) 
-  results <- list() 
-  
-  for (k in 1:min(max_size, n)) { 
-    combos <- combn(cols, k, simplify = FALSE) 
-    
-    for (combo in combos) { 
-      if (is_key(data, combo)) { 
-        results <- append(results, list( 
-          tibble(key_size = k, columns = paste(combo, collapse = ", ")) 
-          )) 
-        } 
-      } 
-    } 
-  
-  if (nrow(bind_rows(results)) == 0) { 
-    return(paste0("No keys of size ", max_size, " found, pick larger max size")) 
-    } else { 
-      bind_rows(results) 
-      } 
-}
-```
-
-Find_minimal_keys
-
-```{r}
-find_minimal_keys <- function(data, max_size = 2) {
+find_keys <- function(data, max_size = 2) {
   cols <- colnames(data)
   n <- length(cols)
   all_keys <- list()
@@ -121,7 +79,7 @@ find_minimal_keys <- function(data, max_size = 2) {
 }
 ```
 
-First_normal
+#### first_normal
 
 ```{r}
 first_normal <- function(data, max_size = 2) {
@@ -136,7 +94,7 @@ first_normal <- function(data, max_size = 2) {
     return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
   }
 
-      result <- find_minimal_keys(data, max_size)
+      result <- find_keys(data, max_size)
 
   if (is.null(result) | is.character(result)) {
     return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
@@ -146,13 +104,13 @@ first_normal <- function(data, max_size = 2) {
 }
 ```
 
-Second_normal
+#### second_normal
 
 ```{r}
 second_normal <- function(data, max_size = 2) {
 
   result <- first_normal(data, max_size = max_size)
-  key_results <- find_minimal_keys(data, max_size = max_size)
+  key_results <- find_keys(data, max_size = max_size)
 
   if (grepl("FALSE", result)) {
     return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
@@ -189,7 +147,7 @@ second_normal <- function(data, max_size = 2) {
 }
 ```
 
-Third_normal
+#### third_normal
 
 ```{r}
 third_normal <- function(data, max_size = 2) {
@@ -199,7 +157,7 @@ third_normal <- function(data, max_size = 2) {
     return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
   }
   
-  key_results <- find_minimal_keys(data, max_size = max_size)
+  key_results <- find_keys(data, max_size = max_size)
   
   if (is.null(key_results) || nrow(key_results) == 0) {
     return("FALSE: No candidate keys found")
@@ -207,59 +165,81 @@ third_normal <- function(data, max_size = 2) {
   
   all_cols <- colnames(data)
   
-  keys_list <- lapply(key_results$columns, function(x) strsplit(x, ", ")[[1]])
+  keys_list <- strsplit(key_results$columns, ", ")
   prime_attrs <- unique(unlist(keys_list))
   non_key_attrs <- setdiff(all_cols, prime_attrs)
 
+  if (length(non_key_attrs) <= 1) return("TRUE")
+
+  all_subsets <- list()
+  for (k in 1:min(2, length(non_key_attrs))) {
+    all_subsets <- c(all_subsets, combn(non_key_attrs, k, simplify = FALSE))
+  }
+
   for (target in non_key_attrs) {
-    
-    others <- setdiff(non_key_attrs, target)
-    
-    max_det_size <- min(2, length(others))
-    
-    for (k in 1:max_det_size) {
-      subsets <- combn(others, k, simplify = FALSE)
+    for (subset in all_subsets) {
       
-      for (subset in subsets) {
-        
-        if (is_key_cached(data, subset)) next
-        
-        if (!any(duplicated(data[subset]))) {
-          
-          return(paste0(
-            "FALSE: Dataset is NOT in Third Normal Form. ",
-            "Possible transitive dependency: {",
-            paste(subset, collapse = ", "),
-            "} -> ", target,
-            ". (May be data-specific coincidence)"
-          ))
-        }
+      if (target %in% subset) next
+      
+      if (is_key_cached(data, subset)) next
+      
+      if (no_duplicates_cached(data, subset)) {
+        return(paste0(
+          "FALSE: Dataset is NOT in Third Normal Form. ",
+          "Possible transitive dependency: {",
+          paste(subset, collapse = ", "),
+          "} -> ", target,
+          ". (May be data-specific coincidence)"
+        ))
       }
     }
   }
   
   return("TRUE")
 }
-
-third_normal(auto)
-second_normal(auto)
-first_normal(auto)
-
-third_normal(college, max_size = 2)
-second_normal(college, max_size = 1)
-
-third_normal(college)
-second_normal(college)
-
-third_normal(counties)
-second_normal(counties, max_size = 1)
 ```
+
+#### Wrappers
+
+```{r}
+key_cache <- new.env(parent = emptyenv())
+
+is_key_cached <- function(data, cols) {
+  key <- paste(sort(cols), collapse = "|")
+  
+  if (exists(key, envir = key_cache)) {
+    return(get(key, envir = key_cache))
+  }
+  
+  val <- is_key(data, cols)
+  assign(key, val, envir = key_cache)
+  val
+}
+
+dup_cache <- new.env(parent = emptyenv())
+
+no_duplicates_cached <- function(data, cols) {
+  key <- paste(sort(cols), collapse = "|")
+  
+  if (exists(key, envir = dup_cache)) {
+    return(get(key, envir = dup_cache))
+  }
+  
+  val <- !any(duplicated(data[, cols, drop = FALSE]))
+  assign(key, val, envir = dup_cache)
+  val
+}
+```
+
+### Data Used in Package Examples
 
 ```{r}
 data("auto")
 data("college")
 data("counties")
 ```
+
+### Descriptions
 
 #### is_key
 
@@ -278,7 +258,7 @@ is_key(college, "unitid")
 
 Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.
 
-#### find_minimal_keys
+#### find_keys
 
 Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.
 
@@ -378,7 +358,7 @@ Coincidental Uniqueness Example
 # add in non-interactible code with result from old version of third_normal where college flagged a transitive dependency, and explain how it was fixed 
 ```
 
-The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is
+The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is coincidentally unique and not a functional dependency.
 
 ## Process
 

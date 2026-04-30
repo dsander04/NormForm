@@ -17,7 +17,7 @@
 #'
 #' @export
 
-find_minimal_keys <- function(data, max_size = 2) {
+find_keys <- function(data, max_size = 2) {
   cols <- colnames(data)
   n <- length(cols)
   all_keys <- list()

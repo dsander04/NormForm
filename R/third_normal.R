@@ -19,43 +19,45 @@
 
 third_normal <- function(data, max_size = 2) {
 
-  result <- second_normal(data, max_size = max_size)
-  key_results <- find_keys(data, max_size = max_size)
-  all_cols <- colnames(data)
-
-  if (grepl("FALSE", result)) {
+  result_2nf <- second_normal(data, max_size = max_size)
+  if (grepl("FALSE", result_2nf)) {
     return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
   }
 
-  for (i in seq_len(nrow(key_results))) {
+  key_results <- find_keys(data, max_size = max_size)
 
-    key_cols <- unlist(strsplit(key_results$columns[i], ", "))
-    non_key_cols <- setdiff(all_cols, key_cols)
+  if (is.null(key_results) || nrow(key_results) == 0) {
+    return("FALSE: No candidate keys found")
+  }
 
-    if (length(non_key_cols) > 1) {
+  all_cols <- colnames(data)
 
-      for (col in non_key_cols) {
+  keys_list <- strsplit(key_results$columns, ", ")
+  prime_attrs <- unique(unlist(keys_list))
+  non_key_attrs <- setdiff(all_cols, prime_attrs)
 
-        other_cols <- setdiff(non_key_cols, col)
+  if (length(non_key_attrs) <= 1) return("TRUE")
 
-        for (k in 1:length(other_cols)) {
+  all_subsets <- list()
+  for (k in 1:min(2, length(non_key_attrs))) {
+    all_subsets <- c(all_subsets, combn(non_key_attrs, k, simplify = FALSE))
+  }
 
-          subsets <- combn(other_cols, k, simplify = FALSE)
+  for (target in non_key_attrs) {
+    for (subset in all_subsets) {
 
-          for (subset in subsets) {
+      if (target %in% subset) next
 
-            temp <- data[, c(subset, col), drop = FALSE]
+      if (is_key_cached(data, subset)) next
 
-            if (!any(duplicated(temp[subset]))) {
-              return(paste0(
-                "FALSE: Dataset is NOT in Third Normal Form. ",
-                "Transitive dependency detected: {",
-                paste(subset, collapse = ", "),
-                "} -> ", col
-              ))
-            }
-          }
-        }
+      if (no_duplicates_cached(data, subset)) {
+        return(paste0(
+          "FALSE: Dataset is NOT in Third Normal Form. ",
+          "Possible transitive dependency: {",
+          paste(subset, collapse = ", "),
+          "} -> ", target,
+          ". (May be data-specific coincidence)"
+        ))
       }
     }
   }
