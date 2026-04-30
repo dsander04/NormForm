@@ -20,15 +20,26 @@ The motivation for developing this package stems from previous issues encountere
 
 -   counties: 100 observations, 18 variables, unique ID variable (RN), contains U.S. census data from 1994
 
+```{r}
+data("auto")
+data("college")
+data("counties")
+```
+
 ### Functions
 
 #### is_key
 
-```{r, echo = FALSE, message=FALSE}
+```{r, warning=FALSE}
 library(dplyr)
 library(purrr)
+library(assertthat)
 
 is_key <- function(data, cols) {
+  assert_that(
+    is.data.frame(data),
+    not_empty(data)
+  )
   !any(duplicated(data[, cols, drop = FALSE]))
 }
 ```
@@ -231,14 +242,6 @@ no_duplicates_cached <- function(data, cols) {
 }
 ```
 
-### Data Used in Package Examples
-
-```{r}
-data("auto")
-data("college")
-data("counties")
-```
-
 ### Descriptions
 
 #### is_key
@@ -263,14 +266,14 @@ Here are two examples of how is_key can be used to check if a column or list of 
 Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.
 
 ```{r}
-print(find_minimal_keys)
+print(find_keys)
 ```
 
 Example:
 
 ```{r, warning=FALSE}
-find_minimal_keys(counties, max_size = 1) 
-find_minimal_keys(counties)
+find_keys(counties, max_size = 1) 
+find_keys(counties)
 ```
 
 In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.
@@ -278,8 +281,8 @@ In this example, there are uniquely identifying keys of one column. The RN is a 
 Example
 
 ```{r}
-find_minimal_keys(auto, max_size = 2)
-find_minimal_keys(auto, max_size = 3)
+find_keys(auto, max_size = 2)
+find_keys(auto, max_size = 3)
 ```
 
 Using the auto data, which has unique identifying variable, we can see that there are no keys of size 2 or smaller, resulting in an error message. By increasing the max_size, the function is able to identify keys of size 3.
@@ -355,14 +358,62 @@ Similar to the logic of the previous normal form functions, a TRUE result implie
 Coincidental Uniqueness Example
 
 ```{r}
-# add in non-interactible code with result from old version of third_normal where college flagged a transitive dependency, and explain how it was fixed 
+third_normal1 <- function(data, max_size = 2) {
+  
+  result <- second_normal(data, max_size = max_size)
+  key_results <- find_keys(data, max_size = max_size)
+  all_cols <- colnames(data)
+
+  if (grepl("FALSE", result)) {
+    return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
+  }
+  
+  for (i in seq_len(nrow(key_results))) {
+    
+    key_cols <- unlist(strsplit(key_results$columns[i], ", "))
+    non_key_cols <- setdiff(all_cols, key_cols)
+    
+    if (length(non_key_cols) > 1) {
+      
+      for (col in non_key_cols) {
+        
+        other_cols <- setdiff(non_key_cols, col)
+        
+        for (k in 1:length(other_cols)) {
+          
+          subsets <- combn(other_cols, k, simplify = FALSE)
+          
+          for (subset in subsets) {
+            
+            temp <- data[, c(subset, col), drop = FALSE]
+            
+            if (!any(duplicated(temp[subset]))) {
+              return(paste0(
+                "FALSE: Dataset is NOT in Third Normal Form. ",
+                "Transitive dependency detected: {",
+                paste(subset, collapse = ", "),
+                "} -> ", col
+              ))
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  return("TRUE")
+}
+
+third_normal1(college)
 ```
 
-The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is coincidentally unique and not a functional dependency.
+The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is coincidentally unique and not a functional dependency. This function issue that caused this was due to the function testing every possible subset, which not only slowed down the function, but treated all attributes, key and non-key, equally. Updates made to this function significantly reduced the likelihood of a false transitive dependency being flagged.
 
 ## Process
 
-To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys and three layers of normal forms, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.
+To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. 
+
+A major part of this process involved translating relational database concepts, such as candidate keys and three layers of normal forms, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.
 
 ## Conclusion
 
