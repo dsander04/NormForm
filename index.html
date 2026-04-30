@@ -2,10 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 
 
 <title>Final Report Index</title>
@@ -18,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
@@ -62,14 +61,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="index_files/libs/clipboard/clipboard.min.js"></script>
 <script src="index_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="index_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="index_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="index_files/libs/quarto-html/popper.min.js"></script>
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-d6a003b94517c951b2d65075d42fb01b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -82,7 +82,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-
 <h1 class="title">Final Report Index</h1>
 </div>
 
@@ -90,11 +89,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
-
-
-
+    
+  
+    
   </div>
-
+  
 
 
 </header>
@@ -110,157 +109,347 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>college: 1372 observations, 29 variables, unique ID variable (unitid), contains data over U.S. colleges and student demographics</p></li>
 <li><p>auto: 398 observations, 11 variables, no unique ID variable, contains vehicle build and performance data</p></li>
-<<<<<<< HEAD
-<li><p>counties: 100 observations, 18 variables, no unique ID variable, contains U.S. census data from 1994</p></li>
-=======
 <li><p>counties: 100 observations, 18 variables, unique ID variable (RN), contains U.S. census data from 1994</p></li>
->>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
 </ul>
 <section id="functions" class="level3">
 <h3 class="anchored" data-anchor-id="functions">Functions</h3>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 398 Columns: 11
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (4): X4, X9, X10, X11
-dbl (7): X1, X2, X3, X5, X6, X7, X8
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-✔ Setting active project to "C:/Users/Dominic
-  Sander/Documents/Rpackages/normform/NormForm".
-
-✔ Saving "auto" to "data/auto.rda".
-
-☐ Document your data (see &lt;https://r-pkgs.org/data.html&gt;).</code></pre>
-</div>
-</div>
 <section id="is_key" class="level4">
 <h4 class="anchored" data-anchor-id="is_key">is_key</h4>
+</section>
+<section id="find_keys" class="level4">
+<h4 class="anchored" data-anchor-id="find_keys">find_keys</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>find_keys <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">max_size =</span> <span class="dv">2</span>) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="fu">colnames</span>(data)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(cols)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  all_keys <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(max_size, n)) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    combos <span class="ot">&lt;-</span> <span class="fu">combn</span>(cols, k, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (combo <span class="cf">in</span> combos) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">is_key</span>(data, <span class="fu">all_of</span>(combo))) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        all_keys <span class="ot">&lt;-</span> <span class="fu">append</span>(all_keys, <span class="fu">list</span>(combo))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  minimal_keys <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (key <span class="cf">in</span> all_keys) {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    is_minimal <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (other <span class="cf">in</span> all_keys) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">length</span>(other) <span class="sc">&lt;</span> <span class="fu">length</span>(key) <span class="sc">&amp;&amp;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(other <span class="sc">%in%</span> key)) {</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        is_minimal <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (is_minimal) {</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      minimal_keys <span class="ot">&lt;-</span> <span class="fu">append</span>(minimal_keys, <span class="fu">list</span>(key))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(minimal_keys) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">key_size =</span> <span class="fu">sapply</span>(minimal_keys, length), </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>         <span class="at">columns =</span> <span class="fu">sapply</span>(minimal_keys, paste, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="first_normal" class="level4">
+<h4 class="anchored" data-anchor-id="first_normal">first_normal</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>first_normal <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">max_size =</span> <span class="dv">2</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  is_atomic <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(<span class="sc">!</span><span class="fu">sapply</span>(x, <span class="cf">function</span>(v) <span class="fu">length</span>(v) <span class="sc">!=</span> <span class="dv">1</span> <span class="sc">||</span> <span class="fu">is.list</span>(v)))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  atomic_cols <span class="ot">&lt;-</span> <span class="fu">sapply</span>(data, is_atomic)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">all</span>(atomic_cols)) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: Dataset is NOT in First Normal Form, non-atomic columns found"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      result <span class="ot">&lt;-</span> <span class="fu">find_keys</span>(data, max_size)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(result) <span class="sc">|</span> <span class="fu">is.character</span>(result)) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: Dataset is NOT in First Normal Form, no candidate key exists"</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">"TRUE"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="second_normal" class="level4">
+<h4 class="anchored" data-anchor-id="second_normal">second_normal</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>second_normal <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">max_size =</span> <span class="dv">2</span>) {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">first_normal</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  key_results <span class="ot">&lt;-</span> <span class="fu">find_keys</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"FALSE"</span>, result)) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(key_results))) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    key_cols <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(key_results<span class="sc">$</span>columns[i], <span class="st">", "</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(key_cols) <span class="sc">&gt;</span> <span class="dv">1</span>) { </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      subsets <span class="ot">&lt;-</span> <span class="fu">unlist</span>(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="fu">lapply</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(key_cols) <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>               <span class="cf">function</span>(k) <span class="fu">combn</span>(key_cols, k, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">recursive =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (subset <span class="cf">in</span> subsets) {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="sc">!</span><span class="fu">any</span>(<span class="fu">duplicated</span>(data[subset]))) {</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>          <span class="fu">return</span>(<span class="fu">paste0</span>(</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">"FALSE: Dataset is NOT in Second Normal Form. "</span>,</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Partial dependency detected: subset {"</span>,</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            <span class="st">"} uniquely identifies rows."</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>          ))</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">"TRUE"</span>)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="third_normal" class="level4">
+<h4 class="anchored" data-anchor-id="third_normal">third_normal</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>third_normal <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">max_size =</span> <span class="dv">2</span>) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  result_2nf <span class="ot">&lt;-</span> <span class="fu">second_normal</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"FALSE"</span>, result_2nf)) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  key_results <span class="ot">&lt;-</span> <span class="fu">find_keys</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(key_results) <span class="sc">||</span> <span class="fu">nrow</span>(key_results) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: No candidate keys found"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  all_cols <span class="ot">&lt;-</span> <span class="fu">colnames</span>(data)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  keys_list <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(key_results<span class="sc">$</span>columns, <span class="st">", "</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  prime_attrs <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(keys_list))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  non_key_attrs <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(all_cols, prime_attrs)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(non_key_attrs) <span class="sc">&lt;=</span> <span class="dv">1</span>) <span class="fu">return</span>(<span class="st">"TRUE"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  all_subsets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">min</span>(<span class="dv">2</span>, <span class="fu">length</span>(non_key_attrs))) {</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    all_subsets <span class="ot">&lt;-</span> <span class="fu">c</span>(all_subsets, <span class="fu">combn</span>(non_key_attrs, k, <span class="at">simplify =</span> <span class="cn">FALSE</span>))</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (target <span class="cf">in</span> non_key_attrs) {</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (subset <span class="cf">in</span> all_subsets) {</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (target <span class="sc">%in%</span> subset) <span class="cf">next</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">is_key_cached</span>(data, subset)) <span class="cf">next</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">no_duplicates_cached</span>(data, subset)) {</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">return</span>(<span class="fu">paste0</span>(</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>          <span class="st">"FALSE: Dataset is NOT in Third Normal Form. "</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Possible transitive dependency: {"</span>,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>          <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>          <span class="st">"} -&gt; "</span>, target,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>          <span class="st">". (May be data-specific coincidence)"</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">"TRUE"</span>)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="wrappers" class="level4">
+<h4 class="anchored" data-anchor-id="wrappers">Wrappers</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>key_cache <span class="ot">&lt;-</span> <span class="fu">new.env</span>(<span class="at">parent =</span> <span class="fu">emptyenv</span>())</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>is_key_cached <span class="ot">&lt;-</span> <span class="cf">function</span>(data, cols) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  key <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">sort</span>(cols), <span class="at">collapse =</span> <span class="st">"|"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">exists</span>(key, <span class="at">envir =</span> key_cache)) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">get</span>(key, <span class="at">envir =</span> key_cache))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  val <span class="ot">&lt;-</span> <span class="fu">is_key</span>(data, cols)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(key, val, <span class="at">envir =</span> key_cache)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  val</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>dup_cache <span class="ot">&lt;-</span> <span class="fu">new.env</span>(<span class="at">parent =</span> <span class="fu">emptyenv</span>())</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>no_duplicates_cached <span class="ot">&lt;-</span> <span class="cf">function</span>(data, cols) {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  key <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">sort</span>(cols), <span class="at">collapse =</span> <span class="st">"|"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">exists</span>(key, <span class="at">envir =</span> dup_cache)) {</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">get</span>(key, <span class="at">envir =</span> dup_cache))</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  val <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">any</span>(<span class="fu">duplicated</span>(data[, cols, <span class="at">drop =</span> <span class="cn">FALSE</span>]))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(key, val, <span class="at">envir =</span> dup_cache)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  val</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="data-used-in-package-examples" class="level3">
+<h3 class="anchored" data-anchor-id="data-used-in-package-examples">Data Used in Package Examples</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"auto"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"college"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"counties"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="descriptions" class="level3">
+<h3 class="anchored" data-anchor-id="descriptions">Descriptions</h3>
+<section id="is_key-1" class="level4">
+<h4 class="anchored" data-anchor-id="is_key-1">is_key</h4>
 <p>Description: This function checks whether a user-specified set of columns is a valid key. The two required arguments include the data set and a list of column(s) being inquired. Output returns a logical result after testing if the listed column(s) is a unique identifier of the data.</p>
 <div class="cell">
-<<<<<<< HEAD
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(is_key)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-=======
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(is_key)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
->>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(is_key)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>function (data, ..., optional_arguement = FALSE)
+<pre><code>function (data, cols) 
 {
-    key_candidate &lt;- select(data, ...)
-    !any(duplicated(key_candidate))
+    assert_that(is.data.frame(data), not_empty(data))
+    !any(duplicated(data[, cols, drop = FALSE]))
 }</code></pre>
 </div>
 </div>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, <span class="fu">c</span>(region,city))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, <span class="fu">c</span>(<span class="st">"region"</span>, <span class="st">"city"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, unitid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_key</span>(college, <span class="st">"unitid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
 <p>Here are two examples of how is_key can be used to check if a column or list of columns are a key. The FALSE output tells us region and city are not a combination key because the rows are not unique. Unitid is a unique identifier given the TRUE result, and therefore a key for the college data.</p>
 </section>
-<section id="find_keys" class="level4">
-<h4 class="anchored" data-anchor-id="find_keys">find_keys</h4>
+<section id="find_keys-1" class="level4">
+<h4 class="anchored" data-anchor-id="find_keys-1">find_keys</h4>
 <p>Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.</p>
 <div class="cell">
-<<<<<<< HEAD
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(find_keys)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-=======
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
->>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(find_keys)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>function (data, max_size = 1)
+<pre><code>function (data, max_size = 2) 
 {
     cols &lt;- colnames(data)
     n &lt;- length(cols)
-    results &lt;- list()
+    all_keys &lt;- list()
     for (k in 1:min(max_size, n)) {
         combos &lt;- combn(cols, k, simplify = FALSE)
         for (combo in combos) {
-            if (is_key(data, combo)) {
-                results &lt;- append(results, list(tibble(key_size = k,
-                  columns = paste(combo, collapse = ", "))))
+            if (is_key(data, all_of(combo))) {
+                all_keys &lt;- append(all_keys, list(combo))
             }
         }
     }
-    if (nrow(bind_rows(results)) == 0) {
-        return(paste0("No keys of size ", max_size, " found, pick larger max size"))
+    minimal_keys &lt;- list()
+    for (key in all_keys) {
+        is_minimal &lt;- TRUE
+        for (other in all_keys) {
+            if (length(other) &lt; length(key) &amp;&amp; all(other %in% 
+                key)) {
+                is_minimal &lt;- FALSE
+                break
+            }
+        }
+        if (is_minimal) {
+            minimal_keys &lt;- append(minimal_keys, list(key))
+        }
     }
-    else {
-        bind_rows(results)
+    if (length(minimal_keys) == 0) {
+        return(NULL)
     }
+    tibble(key_size = sapply(minimal_keys, length), columns = sapply(minimal_keys, 
+        paste, collapse = ", "))
 }</code></pre>
 </div>
 </div>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties, <span class="at">max_size =</span> <span class="dv">1</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 5 × 2
-  key_size columns
-     &lt;int&gt; &lt;chr&gt;
-1        1 RN
-2        1 totpop
-3        1 enroll
+  key_size columns 
+     &lt;int&gt; &lt;chr&gt;   
+1        1 RN      
+2        1 totpop  
+3        1 enroll  
 4        1 civlabor
 5        1 unemp   </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(counties)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 141 × 2
-   key_size columns
-      &lt;int&gt; &lt;chr&gt;
- 1        1 RN
- 2        1 totpop
- 3        1 enroll
- 4        1 civlabor
- 5        1 unemp
- 6        2 RN, state
- 7        2 RN, county
- 8        2 RN, landarea
- 9        2 RN, totpop
-10        2 RN, physician
-# ℹ 131 more rows</code></pre>
+<pre><code># A tibble: 66 × 2
+   key_size columns        
+      &lt;int&gt; &lt;chr&gt;          
+ 1        1 RN             
+ 2        1 totpop         
+ 3        1 enroll         
+ 4        1 civlabor       
+ 5        1 unemp          
+ 6        2 state, county  
+ 7        2 state, landarea
+ 8        2 state, farmpop 
+ 9        2 state, numfarm 
+10        2 state, farmacre
+# ℹ 56 more rows</code></pre>
 </div>
 </div>
 <p>In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.</p>
 <p>Example</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "No keys of size 2 found, pick larger max size"</code></pre>
+<pre><code>NULL</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find_keys</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 2
-  key_size columns
-     &lt;int&gt; &lt;chr&gt;
+  key_size columns    
+     &lt;int&gt; &lt;chr&gt;      
 1        3 X1, X7, X10
-2        3 X5, X6, X7
+2        3 X5, X6, X7 
 3        3 X5, X7, X10
 4        3 X6, X7, X10</code></pre>
 </div>
 </div>
 <p>Using the auto data, which has unique identifying variable, we can see that there are no keys of size 2 or smaller, resulting in an error message. By increasing the max_size, the function is able to identify keys of size 3.</p>
 </section>
-<section id="first_normal" class="level4">
-<h4 class="anchored" data-anchor-id="first_normal">first_normal</h4>
+<section id="first_normal-1" class="level4">
+<h4 class="anchored" data-anchor-id="first_normal-1">first_normal</h4>
 <p>Description: This function returns a logical value indicating whether the data set is in first normal form. The first condition of first normal form is all atomic columns and then uses the find_key function to identify a key. If the data is tidy and has a key, then the function will return TRUE and key(s) have been found. The function will return FALSE and will return a message stating which condition is not met</p>
 <div class="cell">
-<<<<<<< HEAD
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(first_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-=======
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
->>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(first_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>function (data, max_size = 2)
+<pre><code>function (data, max_size = 2) 
 {
     is_atomic &lt;- function(x) {
         all(!sapply(x, function(v) length(v) != 1 || is.list(v)))
@@ -269,9 +458,8 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
     if (!all(atomic_cols)) {
         return("FALSE: Dataset is NOT in First Normal Form, non-atomic columns found")
     }
-    result &lt;- find_keys(data, max_size = max_size)
-    result
-    if (is.character(result)) {
+    result &lt;- find_keys(data, max_size)
+    if (is.null(result) | is.character(result)) {
         return("FALSE: Dataset is NOT in First Normal Form, no candidate key exists")
     }
     return("TRUE")
@@ -280,52 +468,47 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
 </div>
 <p>Example</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "TRUE"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "FALSE: Dataset is NOT in First Normal Form, no candidate key exists"</code></pre>
 </div>
 </div>
 <p>Using the first_normal function on the college data reveals that it is in first normal form by having atomic columns and at least one key. In contrast, the auto data set is not in first normal form since no keys of size 2 or smaller exist.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">first_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "TRUE"</code></pre>
 </div>
 </div>
-<p>When we raise the maz_size of keys to 3, the auto data can now be considered to be in first normal form.</p>
+<p>When we raise the max_size of keys to 3, the auto data can now be considered to be in first normal form.</p>
 </section>
-<section id="second_normal" class="level4">
-<h4 class="anchored" data-anchor-id="second_normal">second_normal</h4>
-<p>Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. Next, it needs to check for partial dependencies for keys with &gt;1 columns. For keys that may have partial dependencies, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.</p>
+<section id="second_normal-1" class="level4">
+<h4 class="anchored" data-anchor-id="second_normal-1">second_normal</h4>
+<p>Description: This function tests for second normal form conditions and returns a logical value like that of first_normal. The first condition is that the data much be in first normal form, so the function first_normal is used to verify. The second condition requires that no partial dependencies exists, meaning that non-key attribute depend on the entirity of the primary key. A key consisting of a single attribute is automatrically in second normal form. To check for partial dependencies for keys with &gt;1 columns, every possible subset combination will be created and tested for duplicates. If there are no duplicates, then the subset is a smaller unique key and therefore the original key has a partial dependency. The output of this function include a logical result, and a message stating which condition was not met when the result is FALSE.</p>
 <div class="cell">
-<<<<<<< HEAD
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(second_normal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-=======
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
->>>>>>> 15f9ce304bdcb7f33492eec932259c61f98661e6
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(second_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>function (data, max_size = 1)
+<pre><code>function (data, max_size = 2) 
 {
     result &lt;- first_normal(data, max_size = max_size)
     key_results &lt;- find_keys(data, max_size = max_size)
-    if (result == "FALSE: Dataset is NOT in First Normal Form, no candidate key exists" |
-        result == "FALSE: Dataset is NOT in First Normal Form, non-atomic columns found") {
+    if (grepl("FALSE", result)) {
         return("FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form")
     }
     for (i in seq_len(nrow(key_results))) {
         key_cols &lt;- unlist(strsplit(key_results$columns[i], ", "))
         if (length(key_cols) &gt; 1) {
-            subsets &lt;- unlist(lapply(1:(length(key_cols) - 1),
-                function(k) combn(key_cols, k, simplify = FALSE)),
+            subsets &lt;- unlist(lapply(1:(length(key_cols) - 1), 
+                function(k) combn(key_cols, k, simplify = FALSE)), 
                 recursive = FALSE)
             for (subset in subsets) {
                 if (!any(duplicated(data[subset]))) {
-                  return(paste0("FALSE: Dataset is NOT in Second Normal Form. ",
-                    "Partial dependency detected: subset {",
+                  return(paste0("FALSE: Dataset is NOT in Second Normal Form. ", 
+                    "Partial dependency detected: subset {", 
                     paste(subset, collapse = ", "), "} uniquely identifies rows."))
                 }
             }
@@ -337,7 +520,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
 </div>
 <p>Example</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "TRUE"</code></pre>
 </div>
@@ -345,22 +528,134 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
 <p>The function reveals that the college data set is in second normal form without needing any alteration. Notably, running only this function on a data set and receiving a TRUE result implies that at least one key exists and the data is in first normal form.</p>
 <p>Example</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "FALSE: Dataset is NOT in Second Normal Form because it is not in First Normal Form"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">second_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "TRUE"</code></pre>
 </div>
 </div>
-<p>When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size 2 exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form.</p>
+<p>When receiving a FALSE result, the function will also provide reasoning as to why the data is not in second normal form. Here, the previous examples have shown that no keys of size two exist and therefore the data is not in first normal form. Raising the max_size argument fixes that problem, therefore allowing the data to be in second normal form. Although a three-column key is not ideal in a data set with only eleven variables, but this is a useful feature for very large data sets.</p>
+</section>
+<section id="third_normal-1" class="level4">
+<h4 class="anchored" data-anchor-id="third_normal-1">third_normal</h4>
+<p>Description: This function tested a data set for third normal form. The two requirements for this form are being in second normal form and no existing transitive dependencies. Transitive dependencies exist when non-key attributes are dependent on other non-key attributes. All variables need to depend exclusively on the key. Third_normal checks for these dependencies by testing if any non-key subset can completely identify (in the same way a key would) another non-key attribute.</p>
+<p>An important part of understanding third normal form is there is the possibility for <strong>coincidental uniqueness</strong>. This occurs when a subset of non-key attributes uniquely identifies another non-key attribute in an inconsequential way. While checks are in place to minimize false positives, the chosen language of “possible transitive dependency” was used. Dependencies flagged should be scrutinized for validity.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(third_normal)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (data, max_size = 2) 
+{
+    result_2nf &lt;- second_normal(data, max_size = max_size)
+    if (grepl("FALSE", result_2nf)) {
+        return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
+    }
+    key_results &lt;- find_keys(data, max_size = max_size)
+    if (is.null(key_results) || nrow(key_results) == 0) {
+        return("FALSE: No candidate keys found")
+    }
+    all_cols &lt;- colnames(data)
+    keys_list &lt;- strsplit(key_results$columns, ", ")
+    prime_attrs &lt;- unique(unlist(keys_list))
+    non_key_attrs &lt;- setdiff(all_cols, prime_attrs)
+    if (length(non_key_attrs) &lt;= 1) 
+        return("TRUE")
+    all_subsets &lt;- list()
+    for (k in 1:min(2, length(non_key_attrs))) {
+        all_subsets &lt;- c(all_subsets, combn(non_key_attrs, k, 
+            simplify = FALSE))
+    }
+    for (target in non_key_attrs) {
+        for (subset in all_subsets) {
+            if (target %in% subset) 
+                next
+            if (is_key_cached(data, subset)) 
+                next
+            if (no_duplicates_cached(data, subset)) {
+                return(paste0("FALSE: Dataset is NOT in Third Normal Form. ", 
+                  "Possible transitive dependency: {", paste(subset, 
+                    collapse = ", "), "} -&gt; ", target, ". (May be data-specific coincidence)"))
+            }
+        }
+    }
+    return("TRUE")
+}</code></pre>
+</div>
+</div>
+<p>Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">third_normal</span>(auto)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">third_normal</span>(auto, <span class="at">max_size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "TRUE"</code></pre>
+</div>
+</div>
+<p>Similar to the logic of the previous normal form functions, a TRUE result implies at least one key exists and all lower normal forms are satisfied. A FALSE result supplies the reasoning for the data not being in third normal form.</p>
+<p>Coincidental Uniqueness Example</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>third_normal1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">max_size =</span> <span class="dv">2</span>) {</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">second_normal</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  key_results <span class="ot">&lt;-</span> <span class="fu">find_keys</span>(data, <span class="at">max_size =</span> max_size)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  all_cols <span class="ot">&lt;-</span> <span class="fu">colnames</span>(data)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">grepl</span>(<span class="st">"FALSE"</span>, result)) {</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="st">"FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form"</span>)</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(key_results))) {</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    key_cols <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">strsplit</span>(key_results<span class="sc">$</span>columns[i], <span class="st">", "</span>))</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    non_key_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(all_cols, key_cols)</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(non_key_cols) <span class="sc">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> (col <span class="cf">in</span> non_key_cols) {</span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>        other_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(non_key_cols, col)</span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(other_cols)) {</span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>          subsets <span class="ot">&lt;-</span> <span class="fu">combn</span>(other_cols, k, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> (subset <span class="cf">in</span> subsets) {</span>
+<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>            temp <span class="ot">&lt;-</span> data[, <span class="fu">c</span>(subset, col), drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> (<span class="sc">!</span><span class="fu">any</span>(<span class="fu">duplicated</span>(temp[subset]))) {</span>
+<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>              <span class="fu">return</span>(<span class="fu">paste0</span>(</span>
+<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"FALSE: Dataset is NOT in Third Normal Form. "</span>,</span>
+<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Transitive dependency detected: {"</span>,</span>
+<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>                <span class="fu">paste</span>(subset, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb45-35"><a href="#cb45-35" aria-hidden="true" tabindex="-1"></a>                <span class="st">"} -&gt; "</span>, col</span>
+<span id="cb45-36"><a href="#cb45-36" aria-hidden="true" tabindex="-1"></a>              ))</span>
+<span id="cb45-37"><a href="#cb45-37" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb45-38"><a href="#cb45-38" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb45-39"><a href="#cb45-39" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb45-40"><a href="#cb45-40" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb45-41"><a href="#cb45-41" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb45-42"><a href="#cb45-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb45-43"><a href="#cb45-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb45-44"><a href="#cb45-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="st">"TRUE"</span>)</span>
+<span id="cb45-45"><a href="#cb45-45" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb45-46"><a href="#cb45-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-47"><a href="#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="fu">third_normal1</span>(college)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "FALSE: Dataset is NOT in Third Normal Form. Transitive dependency detected: {city, ugds} -&gt; instnm"</code></pre>
+</div>
+</div>
+<p>The example shows a transitive dependency that was flagged by an older version of third_normal. The non-key attributes of city and ugds can uniquely identify another non-key attribute instnm. This means that the university name can be completely identified by the city and number of undergrads. This is an inconsequential dependency since number of undergrads is coincidentally unique and not a functional dependency. This function issue that caused this was due to the function testing every possible subset, which not only slowed down the function, but treated all attributes, key and non-key, equally. Updates made to this function significantly reduced the likelihood of a false transitive dependency being flagged.</p>
 </section>
 </section>
 </section>
 <section id="process" class="level2">
 <h2 class="anchored" data-anchor-id="process">Process</h2>
-<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys, first normal form, and second normal form, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
+<p>To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. A major part of this process involved translating relational database concepts, such as candidate keys and three layers of normal forms, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.</p>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
@@ -381,7 +676,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
     anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {
+        if (clz.startsWith('code-annotation-')) {                     
           return true;
         }
       }
@@ -401,11 +696,11 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
         button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button,
-          { trigger: "manual",
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
             customClass: "code-copy-button-tooltip",
             offset: [0, -8]});
-        tooltip.show();
+        tooltip.show();    
       }
       setTimeout(function() {
         if (tooltip) {
@@ -421,13 +716,14 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
@@ -481,7 +777,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
       if (onUntriggerFn) {
         config.onUntrigger = onUntriggerFn;
       }
-      window.tippy(el, config);
+      window.tippy(el, config); 
     }
     const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
     for (var i=0; i<noterefs.length; i++) {
@@ -556,7 +852,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
       tippyHover(xref, undefined, function(instance) {
         instance.disable();
         let url = xref.getAttribute('href');
-        let hash = undefined;
+        let hash = undefined; 
         if (url.startsWith('#')) {
           hash = url;
         } else {
@@ -584,7 +880,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
               if (note !== null) {
                 const html = processXRef(id, note);
                 instance.setContent(html);
-              }
+              } 
             }).finally(() => {
               instance.enable();
               instance.show();
@@ -608,7 +904,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
               }
               const html = processXRef(null, note);
               instance.setContent(html);
-            }
+            } 
           }).finally(() => {
             instance.enable();
             instance.show();
@@ -648,7 +944,7 @@ dbl (7): X1, X2, X3, X5, X6, X7, X8
               height = bottom - top;
             }
             if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it
+              // cook up a div (if necessary) and position it 
               let div = window.document.getElementById("code-annotation-line-highlight");
               if (div === null) {
                 div = window.document.createElement("div");

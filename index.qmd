@@ -36,10 +36,9 @@ library(purrr)
 library(assertthat)
 
 is_key <- function(data, cols) {
-  assert_that(
-    is.data.frame(data),
-    not_empty(data)
-  )
+  assertthat::assert_that(is.data.frame(data), msg = "`data` must be a data frame")
+  assertthat::assert_that(not_empty(data), msg = "`data` cannot be empty")
+  
   !any(duplicated(data[, cols, drop = FALSE]))
 }
 ```
@@ -51,6 +50,11 @@ find_keys <- function(data, max_size = 2) {
   cols <- colnames(data)
   n <- length(cols)
   all_keys <- list()
+  
+  assertthat::assert_that(n > 0, msg = "`data` must have at least one column")
+  assertthat::assert_that(!is.null(cols), msg = "`data` must have column names")
+  assertthat::assert_that(all(cols != ""), msg = "Column names cannot be empty")
+  assertthat::assert_that(!anyDuplicated(cols), msg = "Column names must be unique")
   
   for (k in 1:min(max_size, n)) {
     combos <- combn(cols, k, simplify = FALSE)
@@ -242,7 +246,7 @@ no_duplicates_cached <- function(data, cols) {
 }
 ```
 
-### Descriptions
+### Descriptions & Examples
 
 #### is_key
 
@@ -263,7 +267,7 @@ Here are two examples of how is_key can be used to check if a column or list of 
 
 #### find_keys
 
-Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument.
+Description: This function searches for the smallest possible keys in the data set and can be extended to longer lengths with argument max_size to control the size of combinations considered. Keys are found by cycling through subset combinations of columns and using is_key to test the key status. Output includes all keys that uniquely identify the data set that are the equal to or less than the specified max_size argument, but does exclude redundant combinations for simplicity.
 
 ```{r}
 print(find_keys)
@@ -278,7 +282,7 @@ find_keys(counties)
 
 In this example, there are uniquely identifying keys of one column. The RN is a random assigned number to each county, but the other variables identified as a key would not make appropriate keys given that they are numerical observations of the county. In the case that there are not appropriate single-column keys, the optional max_size argument allows to look for larger, more robust keys.
 
-Example
+Example:
 
 ```{r}
 find_keys(auto, max_size = 2)
@@ -295,7 +299,7 @@ Description: This function returns a logical value indicating whether the data s
 print(first_normal)
 ```
 
-Example
+Example:
 
 ```{r}
 first_normal(college)
@@ -319,7 +323,7 @@ Description: This function tests for second normal form conditions and returns a
 print(second_normal)
 ```
 
-Example
+Example:
 
 ```{r}
 second_normal(college)
@@ -327,7 +331,7 @@ second_normal(college)
 
 The function reveals that the college data set is in second normal form without needing any alteration. Notably, running only this function on a data set and receiving a TRUE result implies that at least one key exists and the data is in first normal form.
 
-Example
+Example:
 
 ```{r}
 second_normal(auto, max_size = 2)
@@ -346,7 +350,7 @@ An important part of understanding third normal form is there is the possibility
 print(third_normal)
 ```
 
-Example
+Example:
 
 ```{r}
 third_normal(auto)
@@ -355,7 +359,7 @@ third_normal(auto, max_size = 3)
 
 Similar to the logic of the previous normal form functions, a TRUE result implies at least one key exists and all lower normal forms are satisfied. A FALSE result supplies the reasoning for the data not being in third normal form.
 
-Coincidental Uniqueness Example
+Coincidental Uniqueness Example:
 
 ```{r}
 third_normal1 <- function(data, max_size = 2) {
@@ -411,7 +415,7 @@ The example shows a transitive dependency that was flagged by an older version o
 
 ## Process
 
-To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality. 
+To develop this package, we followed a process that moved from conceptual design to functional implementation. We began by identifying the specific gaps in existing R tools related to database normalization and key identification. Once those were clarified and we established what features we wanted to provide, we drafted outlines for each function, including expected inputs, outputs, and logical steps required for functionality.
 
 A major part of this process involved translating relational database concepts, such as candidate keys and three layers of normal forms, into computational procedures. Plain-English logic was written before any code was written, ensuring that our implementation aligned with theoretical definitions and avoided unnecessary complexity. Testing with the chosen data sets allowed us to verify correctness and refine the functions. Throughout this process, each function was developed independently, but was designed to work together. An example of this can be seen in using is_key() inside find_keys() and using both the normal form checks. Practical considerations such as missing data and data types were also evaluated. These considerations helped guide the development of optional arguments and error messages that clarify to the user why a function fails when expected conditions are not met. Future improvements were noted for the package. These included additional customization options, more extensive testing, and more structural alignment with tidyverse.
 
