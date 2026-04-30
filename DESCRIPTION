@@ -33,6 +33,7 @@ Depends:
 Imports: 
     dplyr,
     tibble,
+    tidyselect,
     utils
 Suggests: 
     knitr,

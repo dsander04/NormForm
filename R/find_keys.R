@@ -14,6 +14,7 @@
 #' @importFrom utils combn
 #' @importFrom tibble tibble
 #' @importFrom dplyr bind_rows
+#' @importfrom tidyselect all_of
 #'
 #' @export
 
