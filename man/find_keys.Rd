@@ -22,6 +22,6 @@ If `FALSE` is returned, this message will print:
 - `"No keys of size ", max_size, " found, pick larger max size"`
 }
 \examples{
-find_minimal_keys(college)
+find_keys(college)
 
 }

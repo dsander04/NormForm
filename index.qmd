@@ -196,7 +196,7 @@ third_normal <- function(data, max_size = 2) {
       
       if (target %in% subset) next
       
-      if (is_key_cached(data, subset)) next
+      if (key_cached(data, subset)) next
       
       if (no_duplicates_cached(data, subset)) {
         return(paste0(
