@@ -10,7 +10,7 @@
 
 #' @examples
 #' data(college)
-#' is_key(college, city)
+#' is_key(college, "city")
 #'
 #' @export
 
