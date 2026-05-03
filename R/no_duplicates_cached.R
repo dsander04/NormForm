@@ -5,6 +5,8 @@
 #'
 #' @return True or False depending on whether the subset is a duplicate of
 #' another subset that has already been cached
+#'
+#' @noRd
 
 no_duplicates_cached <- function(data, cols, key_cache) {
 

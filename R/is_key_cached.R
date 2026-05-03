@@ -5,6 +5,8 @@
 #' @param cols list
 #' @return True or False depending on whether the column is a key of the data
 #' or not
+#'
+#' @noRd
 
 is_key_cached <- function(data, cols, key_cache) {
   key <- paste(sort(cols), collapse = "|")

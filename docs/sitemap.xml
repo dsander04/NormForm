@@ -1,11 +1,21 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>/404.html</loc></url>
-<url><loc>/LICENSE-text.html</loc></url>
-<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/getting-started.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
 <url><loc>/authors.html</loc></url>
 <url><loc>/index.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/reference/auto.html</loc></url>
+<url><loc>/reference/college.html</loc></url>
+<url><loc>/reference/counties.html</loc></url>
+<url><loc>/reference/find_keys.html</loc></url>
 <url><loc>/reference/first_normal.html</loc></url>
 <url><loc>/reference/index.html</loc></url>
 <url><loc>/reference/is_key.html</loc></url>
+<url><loc>/reference/is_key_cached.html</loc></url>
+<url><loc>/reference/no_duplicates_cached.html</loc></url>
+<url><loc>/reference/second_normal.html</loc></url>
+<url><loc>/reference/third_normal.html</loc></url>
 </urlset>
 
