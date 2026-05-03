@@ -7,20 +7,169 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## Overview
-Relational databases rely on well-defined structures to reduce repetition, ensure consistency, and support efficient data usage. In practice, however, data analysts work with data sets that are messy, with unclear keys. While there are existing R packages, such as testdat, that offer tools for data quality, support for functions that directly assess normal forms or assist in finding keys is limited. This project addresses that gap by creating an R package that provides intuitive functionality for determining keys and evaluating normal forms. Our package, called NormForm, introduces a set of tools to help R users identify potential keys, test whether selected attributes are valid keys, and determine whether or not a data set satisfies the first and second normal form requirements. Collectively, these functions support more efficient data organization and improve the reliability of analyses, along with providing a structured approach to preparing data sets for relational analysis. The NormForm bridges the gap between theoretical principles and practical application, making relational database concepts more accessible to all users.
-
-
-
-
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
-```{r setup}
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(NormForm)
 ```
+
+# Introduction
+
+Relational databases rely on well-structured data to reduce redundancy, ensure consistency, and support efficient analysis. Unfortunately, many real-world datasets are messy, with unclear keys and violations of normalization principles.
+
+`NormForm` is an R package designed to address this gap by providing tools to:
+
+* Identify candidate keys
+* Test whether selected attributes form a valid key
+* Evaluate whether a dataset satisfies first, second, and third normal forms
+
+These tools help bridge the gap between theoretical concepts and practical data analysis.
+
+---
+
+# Motivation
+
+When working with real data, determining whether a dataset satisfies normalization conditions often requires manual inspection. Identifying valid keys can also become computationally expensive as the number of variables increases.
+
+`NormForm` simplifies these tasks by automating:
+
+* Key detection
+* Key validation
+* Normal form assessment
+
+This makes the package especially useful for students, researchers, and analysts working with relational data in R.
+
+---
+
+# Example Data
+
+This vignette uses three example datasets included in the package:
+
+* `college`: 1372 observations, 29 variables, includes a unique identifier (`unitid`)
+* `auto`: 398 observations, 11 variables, no obvious unique identifier
+* `counties`: 100 observations, 18 variables, includes a unique identifier (`RN`)
+
+```{r}
+data(college)
+data(auto)
+data(counties)
+```
+
+---
+
+# Working with Keys
+
+## Checking if a Key Exists
+
+The `is_key()` function tests whether a column or set of columns uniquely identifies each row in a dataset.
+
+```{r}
+is_key(college, "unitid")
+```
+
+This returns `TRUE` if the column is a valid key.
+
+You can also test combinations of columns:
+
+```{r}
+is_key(college, c("city", "stabbr"))
+```
+
+---
+
+## Finding Candidate Keys
+
+To automatically search for keys, use `find_keys()`:
+
+```{r}
+find_keys(auto, max_size = 2)
+```
+
+This function:
+
+* Searches combinations of columns
+* Identifies minimal keys
+* Excludes redundant combinations
+
+The `max_size` argument controls the maximum number of columns considered in combinations.
+
+---
+
+# Evaluating Normal Forms
+
+## First Normal Form (1NF)
+
+A dataset is in first normal form if:
+
+* All columns contain atomic values
+* A valid key exists
+
+```{r}
+first_normal(college)
+```
+
+If the dataset does not satisfy these conditions, the function returns `FALSE` along with a message indicating the issue.
+
+---
+
+## Second Normal Form (2NF)
+
+A dataset is in second normal form if:
+
+1. It is in first normal form
+2. No partial dependencies exist
+
+```{r}
+second_normal(college)
+```
+
+For composite keys, the function checks whether any subset of the key uniquely identifies the data. If so, a partial dependency exists.
+
+Datasets with single-column keys automatically satisfy second normal form.
+
+---
+
+## Third Normal Form (3NF)
+
+A dataset is in third normal form if:
+
+1. It is in second normal form
+2. No transitive dependencies exist
+
+```{r}
+third_normal(college)
+```
+
+Transitive dependencies occur when non-key attributes depend on other non-key attributes rather than directly on the key.
+
+---
+
+# A Complete Workflow
+
+The following example demonstrates a typical workflow using `NormForm`:
+
+```{r}
+# Step 1: Identify candidate keys
+keys <- find_keys(auto, max_size = 2)
+
+# Step 2: Validate a candidate key
+is_key(auto, keys[[1]])
+
+# Step 3: Evaluate normalization
+first_normal(auto)
+second_normal(auto)
+third_normal(auto)
+```
+
+This workflow allows users to move from raw data to a structured assessment of relational integrity.
+
+---
+
+# Conclusion
+
+`NormForm` provides a structured and practical approach to evaluating relational datasets. It allows users to:
+
+* Determine whether columns form valid keys
+* Identify minimal keys efficiently
+* Evaluate first, second, and third normal form
+
+These tools improve data organization and make database normalization concepts easier to apply in real-world analysis.

@@ -1,35 +1,66 @@
 # NormForm
 
 ## Overview
-NormForm is a package created to help everyday R users with 
+
+`NormForm` is an R package for identifying candidate keys and evaluating whether a dataset satisfies first, second, and third normal forms.
+
+It helps users quickly assess data structure, improve organization, and prepare datasets for relational analysis.
+
+------------------------------------------------------------------------
 
 ## Installation
-You can install this package from GitHub:
 
+You can install the development version from GitHub:
+
+``` r
 install.packages("remotes")
 remotes::install_github("dsander04/NormForm")
+```
+
+------------------------------------------------------------------------
 
 ## Example
+
+``` r
 library(NormForm)
 
-find_keys(college, max_size=2)
-is_key(auto)
-first_normal(counties)
+# Example dataset included in the package
+data(college)
+
+# Find candidate keys
+find_keys(college, max_size = 2)
+
+# Check if a column is a key
+is_key(college, "unitid")
+
+# Evaluate normal forms
+first_normal(college)
 second_normal(college)
-third_normal(auto)
+third_normal(college)
+```
 
+------------------------------------------------------------------------
 
-## Key Functions
+## Key Features
 
+- Identify whether a column or set of columns forms a key
+- Automatically search for minimal keys
+- Test for first, second, and third normal form
+
+------------------------------------------------------------------------
 
 ## Documentation
-For a full introduction, see the package vignette:
 
+For a full introduction, see the vignette:
+
+``` r
 vignette("getting-started", package = "NormForm")
+```
 
-Or visit the website: 
-https://dsander04.github.io/NormForm/
+Or visit the website: <https://dsander04.github.io/NormForm/>
 
+------------------------------------------------------------------------
 
 ## Contributing
-Contributions, issues, and requests are always welcome!
+
+Contributions, issues, and feature requests are welcome.

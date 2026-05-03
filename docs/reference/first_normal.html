@@ -25,6 +25,16 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Articles
+
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/getting-started.html">Working with NormForm</a>
+    </li>
+  </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -56,14 +66,27 @@
 
 
 <dt id="arg-max-size">max_size<a class="anchor" aria-label="anchor" href="#arg-max-size"></a></dt>
-<dd><p>size of the key</p></dd>
+<dd><p>maximum size of the key</p></dd>
 
 </dl></div>
+    <div id="value">
+    <h2>Value</h2>
+    <p>logical value: `TRUE`, if the data is in first normal form, `FALSE` otherwise</p>
+    </div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>If `FALSE` is returned, one of two messages will print:
+- `"Data set is NOT in First Normal Form, non-atomic columns found"`
+(when one or more columns include contain multiple values in the same row)
+- `"Data set is NOT in First Normal Form, no candidate key exists"`
+(when there are simply no keys for the data)</p>
+    </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">first_normal</span><span class="op">(</span><span class="va">college</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "FALSE: Dataset is NOT in First Normal Form, no candidate key exists"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "TRUE"</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -78,7 +101,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer></div>
