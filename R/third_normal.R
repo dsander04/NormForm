@@ -19,6 +19,8 @@
 
 third_normal <- function(data, max_size = 2) {
 
+  key_cache <- new.env(parent = emptyenv())
+
   result_2nf <- second_normal(data, max_size = max_size)
   if (grepl("FALSE", result_2nf)) {
     return("FALSE: Dataset is NOT in Third Normal Form because it is not in Second Normal Form")
@@ -48,9 +50,9 @@ third_normal <- function(data, max_size = 2) {
 
       if (target %in% subset) next
 
-      if (is_key_cached(data, subset)) next
+      if (is_key_cached(data, subset, key_cache)) next
 
-      if (no_duplicates_cached(data, subset)) {
+      if (no_duplicates_cached(data, subset, key_cache)) {
         return(paste0(
           "FALSE: Dataset is NOT in Third Normal Form. ",
           "Possible transitive dependency: {",

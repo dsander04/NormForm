@@ -4,7 +4,7 @@
 \alias{no_duplicates_cached}
 \title{Reduces the amount of keys being stored by reducing redundant information}
 \usage{
-no_duplicates_cached(data, cols)
+no_duplicates_cached(data, cols, key_cache)
 }
 \arguments{
 \item{data}{data frame}

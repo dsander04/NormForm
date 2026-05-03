@@ -5,7 +5,7 @@
 \title{To speed up how is_key is applied in the first, second, and third_normal
 function}
 \usage{
-is_key_cached(data, cols)
+is_key_cached(data, cols, key_cache)
 }
 \arguments{
 \item{data}{data frame}
